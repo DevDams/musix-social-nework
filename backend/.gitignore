@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
