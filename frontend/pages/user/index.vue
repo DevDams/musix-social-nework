@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- commencer à coder ici -->
+    <!-- Commencez à coder ici -->
   </div>
 </template>
 
