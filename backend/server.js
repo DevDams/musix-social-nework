@@ -1,26 +1,22 @@
 const express = require('express')
-
 const cors = require('cors')
-
 const app = express()
+const database = require('./database/database')
+const authRoute = require('./routes/authRoute')
 
 app.use(cors())
 app.use(express.urlencoded({extended :true}))
 app.use(express.json())
 
-const port = process.env.PORT || 5001
+const PORT = process.env.PORT || 5001
 
-app.get('/user', (req,res) => {
-    res.status(200).json({"bont": "zboeuifvaozeivbiezrav"})
-})
 
-app.post('/signup', (req,res) => {
-    console.log("body", req.body)
-   res.status(200).json({sucess:true,info:"post"})
-})
+app.use('/api/auth', authRoute)
 
-app.listen(port, (err)=>{
+
+app.listen(PORT, (err)=>{
  if (err )throw err
-
- console.log(`App runing on port ${port}`)
+ console.log(`App runing on port ${PORT}`)
 })
+
+database.connect()
