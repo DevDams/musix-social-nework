@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user.model')
 const UserController = require('../controllers/auth.controller')
-const bcrypt = require('bcrypt')
 
 
 // REGISTER
@@ -14,6 +12,7 @@ router.post('/signup', async (req, res) => {
         res.status(200).json({ message: "Quelque chose s'est mal passé. Veillez réessayer" })
     }
 })
+
 
 // LOGIN
 // router.post('/login', async (req, res) => {

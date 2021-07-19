@@ -45,7 +45,7 @@
           <div class="case-box">
               <input type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
           </div>
-          <button type="submit" class="btn btn-blue">S'inscrire</button>
+          <button @click="signUp" type="submit" class="btn btn-blue">S'inscrire</button>
         </form>
         <div class="login-link">
           <span>Déjà inscrit ?</span>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    signUp (e) {
+    async signUp (e) {
       e.preventDefault()
       const data = {
         name: this.name,
