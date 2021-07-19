@@ -7,12 +7,8 @@
           <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
       </div>
       <div class="home-right">
-        <h1>
-          Enregistrez et partagez vos musique maintenant
-        </h1>
-        <h2>
-          Rejoignez-nous dès aujourd'hui.
-        </h2>
+        <h1>Enregistrez et partagez vos musique maintenant</h1>
+        <h2>Rejoignez-nous dès aujourd'hui.</h2>
         <div class="box-button">
           <nuxt-link to="/signup">
             <button class="btn btn-blue">S'inscrire</button>
@@ -29,34 +25,27 @@
         <h1>S'inscrire</h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
-              <input v-model="name" type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
+              <input type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
           </div>
           <div class="case-box">
-              <input v-model="telephone" type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
+              <input type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
           </div>
           <div class="case-box">
-              <input
-              v-model="email"
-              type="email"
-              name="email"
-              placeholder="Email"
-              autocomplete="off"
-              required
-              >
+              <input type="email" name="email" placeholder="Email" autocomplete="off" required>
           </div>
           <div class="case-box">
-              <input v-model="birth" type="date" name="birth">
+              <input type="date" name="birth">
           </div>
           <div class="case-box">
-              <input v-model="pseudo" type="text" name="pseudo" placeholder="Nom d'utilisateur" autocomplete="off">
+              <input type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
           </div>
           <div class="case-box">
-              <input v-model="password" type="password" name="password" placeholder="Mot de passe">
+              <input type="password" name="password" placeholder="Mot de passe">
           </div>
           <div class="case-box">
-              <input v-model="confirmPassword" type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
+              <input type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
           </div>
-          <button @click="signUp" type="button" class="btn btn-blue">S'inscrire</button>
+          <button type="submit" class="btn btn-blue">S'inscrire</button>
         </form>
         <div class="login-link">
           <span>Déjà inscrit ?</span>
@@ -197,10 +186,10 @@ a {
   background: linear-gradient(90deg, #42ACF2,#B042F2);
 }
 
-.btn-blue:hover {
-  background-color: #1a83c4;
+.btn-blue:hover{
+  background: linear-gradient(to left, #42ACF2,#B042F2);
+  transition: .2s all ease-in-out;
 }
-
 .btn-light{
   border: 1px solid #42ACF2;
   color: #42ACF2;

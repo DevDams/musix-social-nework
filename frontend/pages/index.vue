@@ -4,7 +4,7 @@
     <!-- PAGE D'ACCUEIL -->
     <div class="home-content">
       <div class="home-left">
-          <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
+        <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
       </div>
       <div class="home-right">
           <h1>Enregistrez et partagez vos musique maintenant</h1>
@@ -23,20 +23,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-export default {
-  mounted () {
-    this.gete()
-  },
-  methods: {
-    async gete () {
-      const output = await axios.get('http://localhost:5001/user')
-      if (output) {
-        console.log('output', output.data)
-      }
-    }
-  }
-}
+export default {}
 </script>
 
 <style scoped>
@@ -115,8 +102,9 @@ a {
   background: linear-gradient(90deg, #42ACF2,#B042F2);
 }
 
-.btn-blue:hover {
-  background-color: #1a83c4;
+.btn-blue:hover{
+  background: linear-gradient(-90deg, #42ACF2,#B042F2);
+  transition: .2s all ease-in-out;
 }
 
 .btn-light{
