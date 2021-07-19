@@ -23,7 +23,20 @@
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  mounted () {
+    this.gete()
+  },
+  methods: {
+    async gete () {
+      const output = await axios.get('http://localhost:5001/user')
+      if (output) {
+        console.log('output', output.data)
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>

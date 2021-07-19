@@ -1,11 +1,26 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
+const express = require('express')
 
-const port = process.env.PORT || 5000
+const cors = require('cors')
 
-const app = express();
+const app = express()
 
-const server = http.createServer(app)
+app.use(cors())
+app.use(express.urlencoded({extended :true}))
+app.use(express.json())
 
-server.listen(port, `server is running on ${port}`)
+const port = process.env.PORT || 5001
+
+app.get('/user', (req,res) => {
+    res.status(200).json({"bont": "zboeuifvaozeivbiezrav"})
+})
+
+app.post('/signup', (req,res) => {
+    console.log("body", req.body)
+   res.status(200).json({sucess:true,info:"post"})
+})
+
+app.listen(port, (err)=>{
+ if (err )throw err
+
+ console.log(`App runing on port ${port}`)
+})

@@ -7,8 +7,12 @@
           <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
       </div>
       <div class="home-right">
-        <h1>Enregistrez et partagez vos musique maintenant</h1>
-        <h2>Rejoignez-nous dès aujourd'hui.</h2>
+        <h1>
+          Enregistrez et partagez vos musique maintenant
+        </h1>
+        <h2>
+          Rejoignez-nous dès aujourd'hui.
+        </h2>
         <div class="box-button">
           <nuxt-link to="/signup">
             <button class="btn btn-blue">S'inscrire</button>
@@ -25,27 +29,34 @@
         <h1>S'inscrire</h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
-              <input type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
+              <input v-model="name" type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
+              <input v-model="telephone" type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+              <input
+              v-model="email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autocomplete="off"
+              required
+              >
           </div>
           <div class="case-box">
-              <input type="date" name="birth">
+              <input v-model="birth" type="date" name="birth">
           </div>
           <div class="case-box">
-              <input type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
+              <input v-model="pseudo" type="text" name="pseudo" placeholder="Nom d'utilisateur" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="password" name="password" placeholder="Mot de passe">
+              <input v-model="password" type="password" name="password" placeholder="Mot de passe">
           </div>
           <div class="case-box">
-              <input type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
+              <input v-model="confirmPassword" type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
           </div>
-          <button type="submit" class="btn btn-blue">S'inscrire</button>
+          <button @click="signUp" type="button" class="btn btn-blue">S'inscrire</button>
         </form>
         <div class="login-link">
           <span>Déjà inscrit ?</span>
@@ -60,7 +71,54 @@
 </template>
 
 <script>
-export default {}
+// import axios from 'axios'
+export default {
+  data () {
+    return {
+      name: '',
+      telephone: '',
+      email: '',
+      birth: '',
+      password: '',
+      pseudo: '',
+      confirmPassword: ''
+    }
+  },
+  methods: {
+    signUp (e) {
+      e.preventDefault()
+      const data = {
+        name: this.name,
+        telephone: this.telephone,
+        email: this.email,
+        birth: this.birth,
+        pseudo: this.pseudo,
+        password: this.password
+      }
+      console.log(data)
+      if (this.handleMatchPassword({ password: this.password, confirmPassword: this.confirmPassword }).success) {
+        const out = await axios({ method: 'post', url: 'http://localhost:5001/signup', data })
+        console.log(out.data)
+      } else {
+        console.log('err')
+      }
+      this.name = ''
+      this.telephone = ''
+      this.email = ''
+      this.birth = ''
+      this.pseudo = ''
+      this.password = ''
+      this.confirmPassword = ''
+    },
+    handleMatchPassword ({ password, confirmPassword }) {
+      if (password === confirmPassword) {
+        return { success: true }
+      } else {
+        return { success: false, message: 'Les mots de passe ne sont pas identiques.' }
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
