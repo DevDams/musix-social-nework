@@ -97,7 +97,7 @@ export default {
       }
       console.log(data)
       if (this.handleMatchPassword({ password: this.password, confirmPassword: this.confirmPassword }).success) {
-        const out = await axios({ method: 'post', url: 'http://localhost:5001/signup', data })
+        const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/signup', data })
         console.log(out.data)
       } else {
         console.log('err')
