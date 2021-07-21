@@ -23,4 +23,19 @@ module.exports = class UserController {
             return { success: false }
         }
     }
+
+    // LOGIN USER
+    static async getUser(data) {
+        const user = await User.findOne({pseudo: data.pseudo})
+        if (!user) {
+            return { message: 'Nom d\'utilisateur ou mot de passe incorrect' }
+        }
+        const validate = await bcrypt.compare(data.password, user.password)
+        if (!validate) {
+            return { message: 'Mot de passe incorrect' }
+        }
+
+        const { password, ...others } = user._doc
+        return others
+    }
 }

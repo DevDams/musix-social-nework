@@ -5,16 +5,32 @@
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      userData: ''
+    }
+  },
+  async mounted () {
+    const userId = localStorage.getItem('userId')
+    this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+      .then((res) => {
+        return res.data
+      })
+      .catch(function (err) {
+        return err
+      })
+    console.log(this.userData)
+  }
+}
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Montserrat+Alternates&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat Alternates', sans-serif;
 }
 
 a{

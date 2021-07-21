@@ -5,14 +5,14 @@
     <div class="login-contain">
         <div class="log-content">
             <h1>Se connecter</h1>
-            <form action="#" class="form">
+            <form action="/user" method="POST" class="form">
                 <div class="formcase">
-                    <input type="text" placeholder="Téléphone, email ou non d'utilisateur">
+                    <input v-model="pseudo" type="text" name="pseudo" placeholder="Téléphone, email ou non d'utilisateur">
                 </div>
                 <div class="formcase">
-                    <input type="text" placeholder="Mot de passe">
+                    <input v-model="password" type="password" name="password" placeholder="Mot de passe">
                 </div>
-                <button type="submit" class="btn btn-blue">Se connecter</button>
+                <button @click="logIn" type="submit" class="btn btn-blue">Se connecter</button>
             </form>
             <div class="box-button">
               <p>Mot de passe oublié ?</p>
@@ -27,7 +27,26 @@
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      pseudo: '',
+      password: ''
+    }
+  },
+  methods: {
+    async logIn () {
+      const data = {
+        pseudo: this.pseudo,
+        password: this.password
+      }
+      const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
+      console.log(out.data)
+      localStorage.setItem('userId', out.data._id)
+    }
+  }
+}
 </script>
 
 <style scoped>

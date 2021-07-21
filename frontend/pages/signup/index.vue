@@ -21,29 +21,35 @@
     </div>
     <!-- FORMULAIRE D'INSCRIPTION -->
     <div class="form-overlay">
-      <div class="form-content">
+      <div class="form-content" v-if="!signup_success">
         <h1>S'inscrire</h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
-              <input type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
+              <input v-model="name" type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
+              <input v-model="telephone" type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+              <input
+              v-model="email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autocomplete="off"
+              required>
           </div>
           <div class="case-box">
-              <input type="date" name="birth">
+              <input v-model="birth" type="date" name="birth">
           </div>
           <div class="case-box">
-              <input type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
+              <input v-model="pseudo" type="text" name="pseudo" placeholder="Nom d'utilisateur" autocomplete="off">
           </div>
           <div class="case-box">
-              <input type="password" name="password" placeholder="Mot de passe">
+              <input v-model="password" type="password" name="password" placeholder="Mot de passe">
           </div>
           <div class="case-box">
-              <input type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
+              <input v-model="confirmPassword" type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
           </div>
           <button @click="signUp" type="submit" class="btn btn-blue">S'inscrire</button>
         </form>
@@ -54,6 +60,17 @@
               Se connecter
           </nuxt-link>
         </div>
+      </div>
+      <!-- SUCCESS MODAL -->
+      <div class="success-modal" v-show="signup_success">
+        <p>
+          Inscription terminé. Veillez vous connecter s'il vous plait !
+        </p>
+        <nuxt-link to="/login">
+          <button>
+            Se connecter
+          </button>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -70,7 +87,8 @@ export default {
       birth: '',
       password: '',
       pseudo: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      signup_success: false
     }
   },
   methods: {
@@ -84,20 +102,20 @@ export default {
         pseudo: this.pseudo,
         password: this.password
       }
-      console.log(data)
       if (this.handleMatchPassword({ password: this.password, confirmPassword: this.confirmPassword }).success) {
         const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/signup', data })
-        console.log(out.data)
+        console.log(out)
+        this.signup_success = true
+        this.name = ''
+        this.telephone = ''
+        this.email = ''
+        this.birth = ''
+        this.pseudo = ''
+        this.password = ''
+        this.confirmPassword = ''
       } else {
         console.log('err')
       }
-      this.name = ''
-      this.telephone = ''
-      this.email = ''
-      this.birth = ''
-      this.pseudo = ''
-      this.password = ''
-      this.confirmPassword = ''
     },
     handleMatchPassword ({ password, confirmPassword }) {
       if (password === confirmPassword) {
@@ -262,5 +280,47 @@ a {
 
 .login-link a {
   color: #1a83c4;
+}
+
+.success-modal {
+  background-color: white;
+  z-index: 12;
+  width: 400px;
+  height: 200px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 13px;
+  -webkit-border-radius: 13px;
+  -moz-border-radius: 13px;
+  -ms-border-radius: 13px;
+  -o-border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-modal p {
+  font-size: 21px;
+}
+
+.success-modal button {
+  outline: none;
+  border: none;
+  background-color: #42ACF2;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  cursor: pointer;
+}
+
+.success-modal a {
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
 }
 </style>
