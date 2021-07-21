@@ -21,7 +21,7 @@
     </div>
     <!-- FORMULAIRE D'INSCRIPTION -->
     <div class="form-overlay">
-      <div class="form-content" v-if="!signup_success">
+      <div class="form-content" v-if="signup_form">
         <h1>S'inscrire</h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
@@ -62,6 +62,15 @@
         </div>
       </div>
       <!-- SUCCESS MODAL -->
+      <div class="success-modal error-password" v-show="signup_password">
+        <p>
+          Oups les mots de passe ne correspondent pas. Veillez rééssayer s'il vous plait !
+        </p>
+        <button @click="errorPassword">
+          Modifier
+        </button>
+      </div>
+      <!-- SUCCESS MODAL -->
       <div class="success-modal" v-show="signup_success">
         <p>
           Inscription terminé. Veillez vous connecter s'il vous plait !
@@ -71,6 +80,15 @@
             Se connecter
           </button>
         </nuxt-link>
+      </div>
+      <!-- ECHEC MODAL -->
+      <div class="success-modal" v-show="signup_error">
+        <p>
+          Oups quelque chose s'est mal passé. Veillez rééssayer s'il vous plait !
+        </p>
+        <button @click="hideError" style="margin-top: 15px;">
+          Rééssayer
+        </button>
       </div>
     </div>
   </div>
@@ -88,7 +106,10 @@ export default {
       password: '',
       pseudo: '',
       confirmPassword: '',
-      signup_success: false
+      signup_form: true,
+      signup_password: false,
+      signup_success: false,
+      signup_error: false
     }
   },
   methods: {
@@ -104,8 +125,13 @@ export default {
       }
       if (this.handleMatchPassword({ password: this.password, confirmPassword: this.confirmPassword }).success) {
         const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/signup', data })
-        console.log(out)
-        this.signup_success = true
+        if (out) {
+          this.signup_success = true
+          this.signup_form = false
+        } else {
+          this.signup_error = true
+          this.signup_form = false
+        }
         this.name = ''
         this.telephone = ''
         this.email = ''
@@ -114,7 +140,7 @@ export default {
         this.password = ''
         this.confirmPassword = ''
       } else {
-        console.log('err')
+        this.signup_password = true
       }
     },
     handleMatchPassword ({ password, confirmPassword }) {
@@ -123,6 +149,12 @@ export default {
       } else {
         return { success: false, message: 'Les mots de passe ne sont pas identiques.' }
       }
+    },
+    hideError () {
+      this.signup_error = false
+    },
+    errorPassword () {
+      this.signup_password = false
     }
   }
 }
@@ -322,5 +354,10 @@ a {
   color: white;
   margin-top: 20px;
   cursor: pointer;
+}
+
+.error-password {
+  position: absolute;
+  border: 2px solid black;
 }
 </style>

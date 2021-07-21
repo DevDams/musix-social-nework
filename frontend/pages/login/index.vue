@@ -42,7 +42,6 @@ export default {
         password: this.password
       }
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
-      console.log(out.data)
       localStorage.setItem('userId', out.data._id)
     }
   }

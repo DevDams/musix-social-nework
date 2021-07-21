@@ -7,10 +7,9 @@ const UserController = require('../controllers/auth.controller')
 router.post('/signup', async (req, res) => {
     const { success } = await UserController.addUser(req.body)
     if (success) {
-        res.redirect('/login')
-        res.status(200).json({ message: "Inscription terminé. Veillez vous connecter à votre compte" })
+        return res.status(200).json({ message: "Inscription terminé. Veillez vous connecter à votre compte" })
     } else {
-        res.status(200).json({ message: "Quelque chose s'est mal passé. Veillez réessayer" })
+        return res.status(200).json({ message: "Quelque chose s'est mal passé. Veillez réessayer" })
     }
 })
 
@@ -18,6 +17,8 @@ router.post('/signup', async (req, res) => {
 // LOGIN
 router.post('/login', async (req, res) => {
     const user = await UserController.getUser(req.body)
+    console.log(user)
+    // return user
     res.status(200).json(user)
 })
 

@@ -111,7 +111,11 @@ export default {
       .catch(function (err) {
         return err
       })
-    console.log(this.userData)
+    if (this.userData !== '') {
+      console.log(this.userData)
+    } else {
+      console.log('no user')
+    }
   }
 }
 </script>
@@ -151,7 +155,7 @@ a{
     background-color: #42ACF2;
     cursor: pointer;
     border: none;
-    padding: 15px 25px;
+    padding: 13px 25px;
     border-radius: 55px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -164,11 +168,11 @@ a{
 }
 
 .icon{
-    width: 25px;
+    width: 21px;
 }
 
 .btn-none {
-    font-size: 21px;
+    font-size: 18px;
     border: none;
     background-color: transparent;
     cursor: pointer;
