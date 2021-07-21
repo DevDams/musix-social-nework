@@ -12,9 +12,9 @@
         </div>
         <div class="sidelist disp-flex">
           <img src="~/assets/svg/audio.svg" alt="icon" class="icon">
-          <a href="#">
-              <button class="btn-none">Mes audios</button>
-          </a>
+          <nuxt-link to="/audio">
+            <button class="btn-none">Mes audios</button>
+          </nuxt-link>
         </div>
         <div class="sidelist disp-flex">
           <img src="~/assets/svg/user.svg" alt="icon" class="icon">
@@ -29,7 +29,6 @@
           </a>
         </div>
       </div>
-
       <!-- CONTENU PRINCIPAL -->
       <div class="user-contain">
         <div class="profil-content">
@@ -169,7 +168,7 @@ a{
     text-align: center;
     padding: 20px;
     padding-bottom: 60px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.151);
+    border-bottom: 1px solid #dddddd;
 }
 
 .profil-cover {
@@ -242,7 +241,9 @@ a{
   width: 630px;
   margin: auto;
   padding: 0 20px;
-  margin-top: 70px;
+  margin-top: 50px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid #dddddd;
 }
 
 .mini-circle {
