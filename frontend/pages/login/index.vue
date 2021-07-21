@@ -35,14 +35,26 @@ export default {
       password: ''
     }
   },
+  mounted () {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      this.$router.push('/user')
+    } else {
+      return ''
+    }
+  },
   methods: {
-    async logIn () {
+    async logIn (e) {
+      e.preventDefault()
       const data = {
         pseudo: this.pseudo,
         password: this.password
       }
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
       localStorage.setItem('userId', out.data._id)
+      if (out) {
+        this.$router.push('/user')
+      }
     }
   }
 }

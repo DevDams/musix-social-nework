@@ -13,7 +13,8 @@ module.exports = class UserController {
             telephone: data.telephone,
             email: data.email,
             password: hashedPassword,
-            pseudo: data.pseudo
+            pseudo: data.pseudo,
+            profilname: data.username
         }
         const user = new User({...userData})
         const output = await user.save()

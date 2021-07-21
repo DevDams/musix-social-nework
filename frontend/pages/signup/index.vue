@@ -43,7 +43,10 @@
               <input v-model="birth" type="date" name="birth">
           </div>
           <div class="case-box">
-              <input v-model="pseudo" type="text" name="pseudo" placeholder="Nom d'utilisateur" autocomplete="off">
+              <input v-model="username" type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
+          </div>
+          <div class="case-box">
+              <input v-model="pseudo" type="text" name="pseudo" placeholder="Pseudo" autocomplete="off">
           </div>
           <div class="case-box">
               <input v-model="password" type="password" name="password" placeholder="Mot de passe">
@@ -104,6 +107,7 @@ export default {
       email: '',
       birth: '',
       password: '',
+      username: '',
       pseudo: '',
       confirmPassword: '',
       signup_form: true,
@@ -120,6 +124,7 @@ export default {
         telephone: this.telephone,
         email: this.email,
         birth: this.birth,
+        username: this.username,
         pseudo: this.pseudo,
         password: this.password
       }

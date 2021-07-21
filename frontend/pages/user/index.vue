@@ -28,6 +28,11 @@
               <button class="btn-none">Publier</button>
           </a>
         </div>
+        <div class="sidelist disp-flex" style="background: black;" @click="logOut">
+          <nuxt-link to="/login">
+            <button class="btn-none">Se déconnecter</button>
+          </nuxt-link>
+        </div>
       </div>
       <!-- CONTENU PRINCIPAL -->
       <div class="user-contain">
@@ -104,17 +109,22 @@ export default {
   },
   async mounted () {
     const userId = localStorage.getItem('userId')
-    this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
-      .then((res) => {
-        return res.data
-      })
-      .catch(function (err) {
-        return err
-      })
-    if (this.userData !== '') {
-      console.log(this.userData)
+    if (userId) {
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
     } else {
-      console.log('no user')
+      this.$router.push('/login')
+    }
+  },
+  methods: {
+    logOut () {
+      localStorage.removeItem('userId')
+      this.$router.push('/login')
     }
   }
 }

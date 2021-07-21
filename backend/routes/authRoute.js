@@ -17,8 +17,6 @@ router.post('/signup', async (req, res) => {
 // LOGIN
 router.post('/login', async (req, res) => {
     const user = await UserController.getUser(req.body)
-    console.log(user)
-    // return user
     res.status(200).json(user)
 })
 
