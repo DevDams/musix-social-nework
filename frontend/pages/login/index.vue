@@ -3,6 +3,9 @@
   <!-- commencer à coder ici -->
     <!-- PAGE DE CONNECTION -->
     <div class="login-contain">
+        <div class="logo">
+            <img src="~/assets/images/logo.png">
+        </div>
         <div class="log-content">
             <h1>Se connecter</h1>
             <form action="/user" method="POST" class="form">
@@ -66,6 +69,18 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+.logo{
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0px;
+  right: 50%;
+  margin: 20px 0px;
+}
+.logo img {
+  width: 100%;
+  height: 100%;
+}
 
 a {
   text-decoration: none;
@@ -73,7 +88,7 @@ a {
 
 .login-contain{
   max-width: 350px;
-  margin: 70px auto;
+  margin: 100px auto;
 }
 
 .formcase {
