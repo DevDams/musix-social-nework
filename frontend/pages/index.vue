@@ -23,7 +23,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  mounted () {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      this.$router.push('/user')
+    } else {
+      return ''
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -44,7 +53,7 @@ a {
 }
 
 .home-left {
-  background: linear-gradient( #42ACF2,#B042F2);
+  background: linear-gradient(#42ACF2,#B042F2);
   width: 50%;
   height: 100vh;
 }

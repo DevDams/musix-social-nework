@@ -11,4 +11,14 @@ module.exports = class UserController {
             return { message: "user not found" }
         }
     }
+
+    // UPDATE USER
+    static async getUser(data) {
+        const user = User.findById(data)
+        if (user) {
+            return user
+        } else {
+            return { message: "user not found" }
+        }
+    }
 }

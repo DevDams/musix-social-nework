@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const UserController = require('../controllers/user.controller')
+const uploadImageRoute = require('../controllers/update-controller')
 const User = require('../models/user.model')
 
 
@@ -13,6 +14,16 @@ router.get('/user/:id', async (req, res) => {
     } else {
         res.status(404).json({ message: 'User not found' })
     }
+})
+
+
+// UPDATE USER INFO
+router.post('/update', upload.single('file'), (req, res) => {
+    if (req.file === undefined) {
+        return ''
+    }
+    const imageUrl = `http://localhost:5001/file/${req.file.filename}`
+    res.send(imageUrl)
 })
 
 

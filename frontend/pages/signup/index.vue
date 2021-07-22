@@ -116,6 +116,14 @@ export default {
       signup_error: false
     }
   },
+  mounted () {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      this.$router.push('/user')
+    } else {
+      return ''
+    }
+  },
   methods: {
     async signUp (e) {
       e.preventDefault()
