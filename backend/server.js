@@ -5,8 +5,10 @@ const database = require('./database/database')
 const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
 
+
+
 app.use(cors())
-app.use(express.urlencoded({extended :true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -20,11 +22,11 @@ const PORT = process.env.PORT || 5001
 
 app.use('/api/auth', authRoute)
 app.use('/api', userRoute)
+app.use('/update', userRoute)
 
-
-app.listen(PORT, (err)=>{
- if (err )throw err
- console.log(`App runing on port ${PORT}`)
+app.listen(PORT, (err) => {
+    if (err) throw err
+    console.log(`App runing on port ${PORT}`)
 })
 
 database.connect()

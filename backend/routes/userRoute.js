@@ -18,15 +18,13 @@ router.get('/user/:id', async(req, res) => {
 
 
 // UPDATE USER INFO
-router.post('/update', (req, res) => {
-    upload(req, res, () => {
-        if (req.file === undefined) {
-            return ''
-        } else {
-            const imageUrl = `http://localhost:5001/file/${req.file.filename}`
-            res.send(imageUrl)
-        }
-    })
+router.post('/update', upload.single('file'), (req, res) => {
+    if (req.file === undefined) {
+        return ''
+    }
+
+    const imageUrl = `http://localhost:5001/file/${req.file.filename}`
+    return res.send(imageUrl)
 })
 
 
