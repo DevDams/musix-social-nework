@@ -175,7 +175,9 @@ export default {
       console.log(this.bannerModel)
     },
     updateUserInfo () {
+      const userId = localStorage.getItem('userId')
       const formData = {
+        id: userId,
         username: this.username,
         pseudo: this.pseudo,
         bio: this.bio
@@ -183,16 +185,6 @@ export default {
       const sendData = axios({ method: 'post', url: 'http://localhost:5001/api/user/update', formData })
       this.modifResponse = sendData
     }
-    // async updateUserInfo () {
-    //   const modifyData = {
-    //     banner: this.bannerModel,
-    //     profilpic: this.profilpicModal,
-    //     username: this.username,
-    //     pseudo: this.pseudo,
-    //     bio: this.bio
-    //   }
-    //   const out = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', modifyData })
-    // }
   }
 }
 </script>
