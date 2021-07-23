@@ -186,7 +186,8 @@ a{
 
 .sidebar-left{
   padding: 50px;
-
+  background: #eaeaeab4;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
 .sidelist {
@@ -194,7 +195,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  margin: 25px 0;
   padding: 13px;
 }
 
@@ -204,7 +205,8 @@ a{
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: black;
+  background-color: rgb(19, 19, 19);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
   padding: 13px 20px;
   border-radius: 55px;
   -webkit-border-radius: 25px;

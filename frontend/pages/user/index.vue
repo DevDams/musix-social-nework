@@ -38,9 +38,15 @@
       <div class="user-contain">
         <div class="profil-content">
           <div class="profil-cover">
+            <div class="edit-banner">
+              <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
+            </div>
             <img :src="userData.banner" alt="story-cover" class="usercov">
           </div>
           <div class="circle big-circle">
+            <div class="edit-profilpic">
+              <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
+            </div>
             <img :src="userData.profilpic" alt="user" class="user">
           </div>
           <div class="identity">
@@ -205,6 +211,8 @@ a{
 
 .sidebar-left{
   padding: 50px;
+  background: #eaeaeab4;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
 .sidelist {
@@ -212,7 +220,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px 0;
+  margin: 25px 0;
   padding: 13px;
 }
 
@@ -246,6 +254,35 @@ a{
 
 .icon {
   width: 21px;
+}
+
+.edit-banner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.edit-profilpic {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.edit-profilpic .icon {
+  border-radius: 0;
 }
 
 /* UPDATE USER */
@@ -357,7 +394,7 @@ a{
 
 /* CONTENU PRINCIPAL */
 .user-contain {
-  border-left: 2px solid #e2e2e2;
+  border-left: 1px solid #e2e2e2;
   width: 70%;
 }
 
