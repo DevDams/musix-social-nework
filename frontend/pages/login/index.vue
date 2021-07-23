@@ -48,11 +48,11 @@ export default {
   },
   methods: {
     async logIn (e) {
-      e.preventDefault()
       const data = {
         pseudo: this.pseudo,
         password: this.password
       }
+      e.preventDefault()
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
       localStorage.setItem('userId', out.data._id)
       if (out) {

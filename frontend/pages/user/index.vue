@@ -63,15 +63,7 @@
               </button>
               <h2>Modifier le profil</h2>
             </div>
-            <form action="" method="POST">
-              <!-- <div class="label label-img">
-                <span>Bannière</span>
-                <input @change="processFile($event)" type="file" name="banner" id="banner">
-              </div>
-              <div class="label label-img">
-                <span>Photo de profil</span>
-                <input @change="processFile($event)" type="file" name="profilname" id="profilname">
-              </div> -->
+            <form action="/user" method="POST">
               <div class="label">
                 <span>Nom de profil</span>
                 <input v-model="username" type="text" name="username" autocomplete="off">
@@ -174,16 +166,16 @@ export default {
       this.bannerModel = event.target.files[0]
       console.log(this.bannerModel)
     },
-    updateUserInfo () {
+    async updateUserInfo () {
       const userId = localStorage.getItem('userId')
-      const formData = {
+      const data = {
         id: userId,
         username: this.username,
         pseudo: this.pseudo,
         bio: this.bio
       }
-      const sendData = axios({ method: 'post', url: 'http://localhost:5001/api/user/update', formData })
-      this.modifResponse = sendData
+      const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
+      console.log(sendData)
     }
   }
 }
