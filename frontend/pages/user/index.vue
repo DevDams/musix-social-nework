@@ -51,9 +51,7 @@
             <span>{{ userData.bio }}</span>
           </div>
           <div class="box-button">
-            <a href="#">
-              <button class="btn" @click="updateForm">Editer profil</button>
-            </a>
+            <button class="btn" @click="updateForm">Editer profil</button>
           </div>
         </div>
         <!-- EDIT PROFIL -->
@@ -66,14 +64,14 @@
               <h2>Modifier le profil</h2>
             </div>
             <form action="" method="POST">
-              <div class="label label-img">
+              <!-- <div class="label label-img">
                 <span>Bannière</span>
                 <input @change="processFile($event)" type="file" name="banner" id="banner">
               </div>
               <div class="label label-img">
                 <span>Photo de profil</span>
                 <input @change="processFile($event)" type="file" name="profilname" id="profilname">
-              </div>
+              </div> -->
               <div class="label">
                 <span>Nom de profil</span>
                 <input v-model="username" type="text" name="username" autocomplete="off">
@@ -143,11 +141,10 @@ export default {
     return {
       userData: '',
       showUpdateForm: false,
-      bannerModel: '',
-      profilpicModal: '',
       username: '',
       pseudo: '',
-      bio: ''
+      bio: '',
+      modifResponse: ''
     }
   },
   async mounted () {
@@ -177,15 +174,14 @@ export default {
       this.bannerModel = event.target.files[0]
       console.log(this.bannerModel)
     },
-    async updateUserInfo () {
-      const modifyData = {
-        banner: this.bannerModel,
-        profilpic: this.profilpicModal,
+    updateUserInfo () {
+      const formData = {
         username: this.username,
         pseudo: this.pseudo,
         bio: this.bio
       }
-      const out = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', modifyData })
+      const sendData = axios({ method: 'post', url: 'http://localhost:5001/api/user/update', formData })
+      this.modifResponse = sendData
     }
   }
 }
@@ -274,8 +270,8 @@ a{
 
 .update-profil {
   position: absolute;
-  width: 600px;
-  height: 630px;
+  width: 500px;
+  height: 560px;
   background: white;
   border: 1px solid rgb(209, 209, 209);
   border-radius: 13px;
@@ -313,7 +309,7 @@ a{
 
 .update-profil form {
   width: 75%;
-  margin: 30px auto 0;
+  margin: 60px auto 0;
   display: flex;
   flex-direction: column;
 }

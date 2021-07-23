@@ -152,7 +152,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    logOut () {
+      localStorage.removeItem('userId')
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style scoped>
