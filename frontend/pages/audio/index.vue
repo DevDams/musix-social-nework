@@ -186,6 +186,7 @@ a{
 
 .sidebar-left{
   padding: 50px;
+
 }
 
 .sidelist {
@@ -193,7 +194,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px 0;
+  margin: 20px 0;
   padding: 13px;
 }
 

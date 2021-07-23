@@ -128,6 +128,8 @@ a {
   border: 1px solid #42ACF2;
   color: #42ACF2;
   background-color: transparent;
+  position: relative;
+  z-index: 0;
 }
 
 .btn-light:hover{

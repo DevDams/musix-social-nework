@@ -9,6 +9,7 @@ router.get('/user/:id', async(req, res) => {
     const user = await UserController.getUser(userId)
     if (user !== null) {
         res.status(200).json(user)
+        console.log(user);
     } else {
         res.status(404).json({ message: 'User not found' })
     }

@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const database = require('./database/database')
+// const database = require('./database/database')
 const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
 
@@ -29,4 +29,4 @@ app.listen(PORT, (err) => {
     console.log(`App runing on port ${PORT}`)
 })
 
-database.connect()
+// database.connect()
