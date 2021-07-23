@@ -7,6 +7,9 @@
         <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
       </div>
       <div class="home-right">
+          <div class="logo">
+            <img src="~/assets/images/logo.png">
+          </div>
           <h1>Enregistrez et partagez vos musique maintenant</h1>
           <h2>Rejoignez-nous dès aujourd'hui.</h2>
           <div class="box-button">
@@ -47,6 +50,17 @@ a {
 }
 
 /* PAGE D'ACCUEIL */
+.logo{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 5px;
+}
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+
 .home-content {
   display: flex;
   align-items: center;
@@ -69,16 +83,10 @@ a {
   width: 50%;
 }
 
-.home-right img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-}
-
 .home-right h1 {
   font-weight: 800;
   font-size: 70px;
-  padding: 30px 0;
+  padding: 37px 0px 30px 0px;
 }
 
 .home-right h2 {

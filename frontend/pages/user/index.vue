@@ -45,7 +45,7 @@
           </div>
           <div class="identity">
             <p class="username">{{ userData.profilname }}</p>
-            <p class="pseudo">@{{ userData.pseudo }}</p>
+            <p class="pseudo">{{ userData.pseudo }}</p>
           </div>
           <div class="descrip">
             <span>{{ userData.bio }}</span>
@@ -183,6 +183,16 @@ export default {
       const sendData = axios({ method: 'post', url: 'http://localhost:5001/api/user/update', formData })
       this.modifResponse = sendData
     }
+    // async updateUserInfo () {
+    //   const modifyData = {
+    //     banner: this.bannerModel,
+    //     profilpic: this.profilpicModal,
+    //     username: this.username,
+    //     pseudo: this.pseudo,
+    //     bio: this.bio
+    //   }
+    //   const out = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', modifyData })
+    // }
   }
 }
 </script>

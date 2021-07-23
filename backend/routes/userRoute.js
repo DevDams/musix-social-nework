@@ -4,7 +4,7 @@ const UserController = require('../controllers/user.controller')
 
 
 // GET USER INFO
-router.get('/user/:id', async (req, res) => {
+router.get('/user/:id', async(req, res) => {
     const userId = req.params.id
     const user = await UserController.getUser(userId)
     if (user !== null) {
