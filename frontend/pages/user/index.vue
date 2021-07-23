@@ -23,10 +23,10 @@
           </nuxt-link>
         </div>
         <div class="sidelist disp-flex">
-          <a href="#">
+          <nuxt-link to="/post">
             <img src="~/assets/svg/post.svg" alt="icon" class="icon">
             <button class="btn-none">Publier</button>
-          </a>
+          </nuxt-link>
         </div>
         <div class="sidelist disp-flex" @click="logOut">
           <nuxt-link to="/login">
