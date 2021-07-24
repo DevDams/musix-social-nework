@@ -51,7 +51,7 @@
           </div>
           <div class="identity">
             <p class="username">{{ userData.profilname }}</p>
-            <p class="pseudo">{{ userData.pseudo }}</p>
+            <p class="pseudo">@{{ userData.pseudo }}</p>
           </div>
           <div class="descrip">
             <span>{{ userData.bio }}</span>
