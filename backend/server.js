@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const path = require('path')
 const app = express()
 const database = require('./database/database')
 const authRoute = require('./routes/authRoute')
@@ -16,13 +17,14 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
     next()
 })
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 const PORT = process.env.PORT || 5001
 
 
 app.use('/api/auth', authRoute)
 app.use('/api', userRoute)
-app.use('/update', userRoute)
+// app.use('/update', userRoute)
 
 app.listen(PORT, (err) => {
     if (err) throw err

@@ -38,16 +38,16 @@
       <div class="user-contain">
         <div class="profil-content">
           <div class="profil-cover">
-            <div class="edit-banner">
+            <div class="icon-edit-banner" @click="bannerForm">
               <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
             </div>
-            <img :src="userData.banner" alt="story-cover" class="usercov">
+            <img :src="`http://localhost:5001/uploads/images/${userData.banner}`" alt="story-cover" class="usercov">
           </div>
           <div class="circle big-circle">
-            <div class="edit-profilpic">
+            <div class="icon-edit-profilpic" @click="profilpicForm">
               <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
             </div>
-            <img :src="userData.profilpic" alt="user" class="user">
+            <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="user" class="user">
           </div>
           <div class="identity">
             <p class="username">{{ userData.profilname }}</p>
@@ -85,6 +85,42 @@
               <button type="submit" @click="updateUserInfo">
                 Modifier
               </button>
+            </form>
+          </div>
+        </div>
+        <!-- EDIT BANNER -->
+        <div class="edit-bannerpic" v-show="showBannerForm">
+          <div class="update-banner">
+            <div class="header">
+              <button @click="bannerForm">
+                <img src="~/assets/svg/close-btn.svg" alt="icon" class="icon">
+              </button>
+              <h2>Modifier la photo de couverture</h2>
+            </div>
+            <form action="/user" method="POST" enctype="multipart/form-data">
+              <div class="label">
+                <span>Couverture</span>
+                <input @change="processFile($event)" type="file" name="banner" id="banner">
+              </div>
+              <button type="submit" @click="updateBanner">Modifier</button>
+            </form>
+          </div>
+        </div>
+        <!-- EDIT PROFIL PIC -->
+        <div class="edit-prodilpic" v-show="showProfilpicForm">
+          <div class="update-banner">
+            <div class="header">
+              <button @click="profilpicForm">
+                <img src="~/assets/svg/close-btn.svg" alt="icon" class="icon">
+              </button>
+              <h2>Modifier la photo de profil</h2>
+            </div>
+            <form action="/user" method="POST">
+              <div class="label">
+                <span>Photo de profil</span>
+                <input @change="processFile($event)" type="file" name="profilpic" id="profilpic">
+              </div>
+              <button type="submit" @click="updateProfilPic">Modifier</button>
             </form>
           </div>
         </div>
@@ -139,9 +175,12 @@ export default {
     return {
       userData: '',
       showUpdateForm: false,
+      showBannerForm: false,
+      showProfilpicForm: false,
       username: '',
       pseudo: '',
       bio: '',
+      photo: '',
       modifResponse: ''
     }
   },
@@ -168,9 +207,14 @@ export default {
     updateForm () {
       this.showUpdateForm = !this.showUpdateForm
     },
+    bannerForm () {
+      this.showBannerForm = !this.showBannerForm
+    },
+    profilpicForm () {
+      this.showProfilpicForm = !this.showProfilpicForm
+    },
     processFile (event) {
-      this.bannerModel = event.target.files[0]
-      console.log(this.bannerModel)
+      this.photo = event.target.files[0]
     },
     async updateUserInfo () {
       const userId = localStorage.getItem('userId')
@@ -181,6 +225,22 @@ export default {
         bio: this.bio
       }
       const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
+      console.log(sendData)
+    },
+    async updateBanner () {
+      const userId = localStorage.getItem('userId')
+      const file = this.photo
+      const formData = new FormData()
+      formData.append('file', file)
+      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+      console.log(sendData)
+    },
+    async updateProfilPic () {
+      const userId = localStorage.getItem('userId')
+      const file = this.photo
+      const formData = new FormData()
+      formData.append('file', file)
+      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
       console.log(sendData)
     }
   }
@@ -210,8 +270,10 @@ a{
 /* SIDEBAR LEFT */
 
 .sidebar-left{
+  position: fixed;
+  height: 100%;
   padding: 50px;
-  background: #eaeaeab4;
+  background: #f0f0f0;
   box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
@@ -256,7 +318,7 @@ a{
   width: 21px;
 }
 
-.edit-banner {
+.icon-edit-banner {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -268,7 +330,7 @@ a{
   cursor: pointer;
 }
 
-.edit-profilpic {
+.icon-edit-profilpic {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -277,11 +339,11 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 14px;
   cursor: pointer;
 }
 
-.edit-profilpic .icon {
+.icon-edit-profilpic .icon {
   border-radius: 0;
 }
 
@@ -392,10 +454,185 @@ a{
   box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
+/* UPDATE BANNER */
+.edit-bannerpic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(209, 209, 209);
+  background: rgba(0, 0, 0, 0.13);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  z-index: 24;
+}
+
+.edit-bannerpic .update-banner {
+  background: white;
+  width: 600px;
+  height: 230px;
+  border-radius: 13px;
+}
+
+.edit-bannerpic .update-banner .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.edit-bannerpic .update-banner .header button {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #42ACF2;
+  outline: none;
+  border: none;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edit-bannerpic .update-banner .header button img {
+  width: 35px;
+}
+
+.edit-bannerpic .update-banner form {
+  width: 75%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-bannerpic .update-banner form .label {
+  display: flex;
+  flex-direction: column;
+  height: 65px;
+}
+
+.edit-bannerpic .update-banner form .label span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.edit-bannerpic .update-banner form .label input {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.edit-bannerpic .update-banner form button {
+  margin-top: 30px;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
+/* UPDATE PROFIL PIC */
+.edit-prodilpic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(209, 209, 209);
+  background: rgba(0, 0, 0, 0.13);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  z-index: 24;
+}
+
+.edit-prodilpic .update-banner {
+  background: white;
+  width: 600px;
+  height: 230px;
+  border-radius: 13px;
+}
+
+.edit-prodilpic .update-banner .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.edit-prodilpic .update-banner .header button {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #42ACF2;
+  outline: none;
+  border: none;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edit-prodilpic .update-banner .header button img {
+  width: 35px;
+}
+
+.edit-prodilpic .update-banner form {
+  width: 75%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-prodilpic .update-banner form .label {
+  display: flex;
+  flex-direction: column;
+  height: 65px;
+}
+
+.edit-prodilpic .update-banner form .label span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.edit-prodilpic .update-banner form .label input {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.edit-prodilpic .update-banner form button {
+  margin-top: 30px;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
 /* CONTENU PRINCIPAL */
 .user-contain {
   border-left: 1px solid #e2e2e2;
   width: 70%;
+  margin-left: 330px;
 }
 
 .profil-content {

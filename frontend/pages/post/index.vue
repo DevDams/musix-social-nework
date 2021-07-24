@@ -118,9 +118,10 @@ a{
 /* SIDEBAR LEFT */
 
 .sidebar-left{
-  height: 100vh;
+  position: fixed;
+  height: 100%;
   padding: 50px;
-  background: #eaeaeab4;
+  background: #f0f0f0;
   box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 

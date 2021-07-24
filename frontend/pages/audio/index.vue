@@ -185,8 +185,10 @@ a{
 /* SIDEBAR LEFT */
 
 .sidebar-left{
+  position: fixed;
+  height: 100%;
   padding: 50px;
-  background: #eaeaeab4;
+  background: #f0f0f0;
   box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
@@ -236,6 +238,7 @@ a{
   border-left: 2px solid #e2e2e2;
   padding: 30px;
   width: 70%;
+  margin-left: 330px;
 }
 
 .title{
