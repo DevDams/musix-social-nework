@@ -35,6 +35,7 @@
         </div>
       </div>
       <div class="post-form">
+        <h2>Uploader un nouvel audio</h2>
       </div>
     </div>
   </div>
@@ -166,139 +167,8 @@ a{
   width: 21px;
 }
 
-.edit-banner {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: black;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.edit-profilpic {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: black;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  cursor: pointer;
-}
-
-.edit-profilpic .icon {
-  border-radius: 0;
-}
-
-/* UPDATE USER */
-.edit-form {
-  background: rgba(0, 0, 0, 0.13);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 24;
-}
-
-.update-profil {
-  position: absolute;
-  width: 500px;
-  height: 560px;
-  background: white;
-  border: 1px solid rgb(209, 209, 209);
-  border-radius: 13px;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
-  z-index: 24;
-}
-
-.update-profil .header {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-.update-profil .header button {
-  position: absolute;
-  left: 10px;
-  top: -10px;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #42ACF2;
-  outline: none;
-  border: none;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.update-profil .header button img {
-  width: 35px;
-}
-
-.update-profil form {
-  width: 75%;
-  margin: 60px auto 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.update-profil form .label {
-  display: flex;
-  flex-direction: column;
-  height: 85px;
-  margin-top: 10px;
-}
-
-.update-profil form .label-img {
-  height: 60px;
-}
-
-.update-profil form .label-img input {
-  border: none !important;
-  border-radius: 0 !important;
-}
-
-.update-profil form .label span {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.update-profil form .label input {
-  background: none;
-  height: 65px;
-  margin-top: 10px;
-  outline-color: #1a83c4;
-  border: 2px solid rgba(128, 128, 128, 0.541);
-  border-radius: 5px;
-  background: white;
-  font-size: 17px;
-  padding-left: 10px;
-  color: #303030;
-}
-
-.update-profil form button {
-  margin-top: 40px;
-  font-size: 16px;
-  height: 40px;
-  border-radius: 30px;
-  font-weight: 800;
-  background: linear-gradient(90deg, #42ACF2,#B042F2);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+.post-form {
+  margin-left: 330px;
+  text-align: center;
 }
 </style>

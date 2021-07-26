@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const UserController = require('../controllers/user.controller')
-const upload = require('../helpers/file.helper')
+const uploadImage = require('../helpers/uploadImage.helper')
 
 
 // GET USER INFO
@@ -22,13 +22,13 @@ router.post('/user/update', async (req, res) => {
     if (user) {
         res.status(200).json(user)
     } else {
-        res.send(201).json({ message: "Oups... Quelque chose s'est mal passé, veillez rééssayer" })
+        res.status(201).json({ message: "Oups... Quelque chose s'est mal passé, veillez rééssayer" })
     }
 })
 
 
 // UPDATE USER BANNER PIC
-router.post('/user/upload/banner/:id', upload.single('file'), async (req, res) => {
+router.post('/user/upload/banner/:id', uploadImage.single('file'), async (req, res) => {
     const user = await UserController.updateBanner(req.file, req.params.id)
     if (user) {
         res.status(200).json(user)
@@ -39,7 +39,7 @@ router.post('/user/upload/banner/:id', upload.single('file'), async (req, res) =
 
 
 // UPDATE USER PROFIL PIC
-router.post('/user/upload/profilpic/:id', upload.single('file'), async (req, res) => {
+router.post('/user/upload/profilpic/:id', uploadImage.single('file'), async (req, res) => {
     const user = await UserController.updateProfilPic(req.file, req.params.id)
     if (user) {
         res.status(200).json(user)
