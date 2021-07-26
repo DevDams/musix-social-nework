@@ -5,6 +5,7 @@ const app = express()
 const database = require('./database/database')
 const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
+const postRoute = require('./routes/postRoute')
 
 
 
@@ -24,7 +25,7 @@ const PORT = process.env.PORT || 5001
 
 app.use('/api/auth', authRoute)
 app.use('/api', userRoute)
-// app.use('/update', userRoute)
+app.use('/api', postRoute)
 
 app.listen(PORT, (err) => {
     if (err) throw err

@@ -55,7 +55,7 @@ export default {
       e.preventDefault()
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
       localStorage.setItem('userId', out.data._id)
-      if (out) {
+      if (out.data._id) {
         this.$router.push('/user')
       }
     }

@@ -35,7 +35,9 @@
         </div>
       </div>
       <div class="post-form">
-        <h2>Uploader un nouvel audio</h2>
+        <div class="post-header">
+          <h2>Ajouter un nouvel audio...</h2>
+        </div>
       </div>
     </div>
   </div>
@@ -168,7 +170,16 @@ a{
 }
 
 .post-form {
+  width: 70%;
   margin-left: 330px;
   text-align: center;
+}
+
+.post-header {
+  margin-top: 70px;
+}
+
+.post-header h2 {
+  font-size: 34px;
 }
 </style>
