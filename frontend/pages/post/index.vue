@@ -34,9 +34,26 @@
           </nuxt-link>
         </div>
       </div>
-      <div class="post-form">
+      <div class="post-side">
         <div class="post-header">
           <h2>Ajouter un nouvel audio...</h2>
+        </div>
+        <div class="post-form">
+          <div class="form">
+            <form action="/" method="POST">
+              <div class="label">
+                <span>Dites quelques choses à propos</span>
+                <input v-model="description" type="text" name="description" autocomplete="off">
+              </div>
+              <div class="label">
+                <span>Choisissez un audio</span>
+                <input @change="processFile($event)" type="file" name="audio" id="audio">
+              </div>
+              <button type="submit" @click="postAudio">
+                Ajouter
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -48,25 +65,14 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      userData: '',
-      showUpdateForm: false,
-      username: '',
-      pseudo: '',
-      bio: '',
-      modifResponse: ''
+      description: '',
+      audio: ''
     }
   },
-  async mounted () {
+  mounted () {
     const userId = localStorage.getItem('userId')
     if (userId) {
-      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
-        .then((res) => {
-          return res.data
-        })
-        .catch(function (err) {
-          return err
-        })
-      console.log(this.userData)
+      console.log('User logged')
     } else {
       this.$router.push('/login')
     }
@@ -76,22 +82,18 @@ export default {
       localStorage.removeItem('userId')
       this.$router.push('/login')
     },
-    updateForm () {
-      this.showUpdateForm = !this.showUpdateForm
-    },
     processFile (event) {
-      this.bannerModel = event.target.files[0]
-      console.log(this.bannerModel)
+      this.audio = event.target.files[0]
     },
-    async updateUserInfo () {
+    async postAudio (e) {
+      e.preventDefault()
       const userId = localStorage.getItem('userId')
-      const data = {
-        id: userId,
-        username: this.username,
-        pseudo: this.pseudo,
-        bio: this.bio
-      }
-      const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
+      const file = this.audio
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('userId', userId)
+      formData.append('description', this.description)
+      const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/post', data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
       console.log(sendData)
     }
   }
@@ -169,7 +171,7 @@ a{
   width: 21px;
 }
 
-.post-form {
+.post-side {
   width: 70%;
   margin-left: 330px;
   text-align: center;
@@ -181,5 +183,64 @@ a{
 
 .post-header h2 {
   font-size: 34px;
+}
+
+.post-form {
+  width: 100%;
+}
+
+.form {
+  width: 400px;
+  height: 400px;
+  margin: 100px auto 0;
+  border: 1px solid gray;
+  border-radius: 13px;
+  background: white;
+}
+
+form {
+  width: 100%;
+  height: 100%;
+  padding: 20px 15px 15px;
+  text-align: left !important;
+  box-shadow: 0px 13px 30px -20px rgba(0, 0, 0, 0.466);
+}
+
+form .label {
+  display: flex;
+  flex-direction: column;
+  height: 90px;
+  margin-top: 30px;
+}
+
+form .label span {
+  font-size: 18px;
+}
+
+form .label input {
+  background: none;
+  height: 65px;
+  margin-top: 10px;
+  outline-color: #1a83c4;
+  border: 1px solid rgba(128, 128, 128, 0.541);
+  border-radius: 5px;
+  background: white;
+  font-size: 17px;
+  padding-left: 10px;
+  color: #303030;
+}
+
+form button {
+  margin-top: 40px;
+  font-size: 16px;
+  width: 100%;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 </style>

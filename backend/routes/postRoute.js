@@ -7,10 +7,23 @@ const uploadAudio = require('../helpers/uploadAudio.helper')
 // CREATE NEW AUDIO
 router.post('/post', uploadAudio.single('file'), async (req, res) => {
     const { success } = await PostController.addPost(req.file, req.body)
+    console.log(req.body)
     if (success) {
         return res.status(200).json({ message: "Audio ajouté avec succes !" })
     } else {
         return res.status(201).json({ message: "Quelque chose s'est mal passé. Veillez réessayer" })
+    }
+})
+
+
+// GET ALL POST
+router.get('/post/:id', async(req, res) => {
+    const userId = req.params.id
+    const user = await PostController.getPost(userId)
+    if (user !== null) {
+        res.status(200).json(user)
+    } else {
+        res.status(404).json({ message: 'User not found' })
     }
 })
 
