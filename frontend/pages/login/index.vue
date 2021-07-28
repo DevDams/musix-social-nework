@@ -10,15 +10,18 @@
         <h1>Se connecter</h1>
         <form action="/user" method="POST" class="form">
           <div class="formcase">
-              <input v-model="pseudo" type="text" name="pseudo" placeholder="Téléphone, email ou non d'utilisateur">
+              <input @focus="clear" v-model="pseudo" type="text" name="pseudo" placeholder="Téléphone, email ou non d'utilisateur">
           </div>
           <div class="formcase">
-              <input v-model="password" type="password" name="password" placeholder="Mot de passe">
+              <input @focus="clear" v-model="password" type="password" name="password" placeholder="Mot de passe">
+          </div>
+          <div class="error" v-show="error">
+            <span>*Pseudo ou mot de passe incorrecte !</span>
           </div>
           <button @click="logIn" type="submit" class="btn btn-blue">Se connecter</button>
         </form>
         <div class="box-button">
-          <p>Mot de passe oublié ?</p>
+          <p>Pas encore inscris ?</p>
           <span>-</span>
           <nuxt-link to="/signup">
             S'inscrire
@@ -35,7 +38,8 @@ export default {
   data () {
     return {
       pseudo: '',
-      password: ''
+      password: '',
+      error: false
     }
   },
   mounted () {
@@ -47,6 +51,9 @@ export default {
     }
   },
   methods: {
+    clear () {
+      this.error = false
+    },
     async logIn (e) {
       const data = {
         pseudo: this.pseudo,
@@ -54,9 +61,11 @@ export default {
       }
       e.preventDefault()
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
-      localStorage.setItem('userId', out.data._id)
-      if (out.data._id) {
+      if (out.data._id !== undefined) {
+        localStorage.setItem('userId', out.data._id)
         this.$router.push('/user')
+      } else {
+        this.error = true
       }
     }
   }
@@ -150,5 +159,13 @@ a {
 .btn-blue:hover{
   background: linear-gradient(to left, #42ACF2,#B042F2);
   transition: .2s all ease-in-out;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }
 </style>

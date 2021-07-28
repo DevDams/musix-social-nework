@@ -36,6 +36,9 @@
       </div>
       <!-- CONTENU PRINCIPAL -->
       <div class="user-contain">
+        <div class="content-overlay" v-show="loading">
+          <img src="~/assets/svg/oval.svg" alt="">
+        </div>
         <div class="profil-content">
           <div class="profil-cover">
             <div class="icon-edit-banner" @click="bannerForm">
@@ -144,25 +147,6 @@
             <audio src="audio.wav" preload="auto" controls></audio>
           </div>
         </div>
-        <div class="story">
-          <div class="disp-flex usernav">
-            <div class="circle mini-circle">
-              <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-            </div>
-            <div class="identity">
-              <p class="post-username">Lorem ipsum.</p>
-              <p class="post-pseudo">@lorem123</p>
-            </div>
-          </div>
-          <div class="post-comment">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic maxime vero beatae facere corporis ut provident qui laboriosam eaque totam accusantium cumque, sit dolore molestias, odio libero tempora veritatis nulla? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae a dolor cupiditate excepturi illum vitae. Est assumenda labore aut reiciendis veniam doloribus? Quidem dolorum vitae nisi temporibus excepturi, molestiae quo?
-            </p>
-          </div>
-          <div class="story-cover">
-            <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-          </div>
-        </div>
       </div>
   </div>
   </div>
@@ -173,6 +157,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      loading: true,
       userData: '',
       showUpdateForm: false,
       showBannerForm: false,
@@ -185,6 +170,9 @@ export default {
     }
   },
   async mounted () {
+    setTimeout(() => {
+      this.loading = false
+    }, 2000)
     const userId = localStorage.getItem('userId')
     if (userId) {
       this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
@@ -633,6 +621,21 @@ a{
   border-left: 1px solid #e2e2e2;
   width: 70%;
   margin-left: 330px;
+}
+
+.content-overlay {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  background: white;
+  z-index: 24;
+}
+
+.content-overlay img {
+  width: 45px;
 }
 
 .profil-content {

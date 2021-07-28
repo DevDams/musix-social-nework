@@ -7,7 +7,6 @@ const uploadAudio = require('../helpers/uploadAudio.helper')
 // CREATE NEW AUDIO
 router.post('/post', uploadAudio.single('file'), async (req, res) => {
     const { success } = await PostController.addPost(req.file, req.body)
-    console.log(req.body)
     if (success) {
         return res.status(200).json({ message: "Audio ajouté avec succes !" })
     } else {
