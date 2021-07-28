@@ -128,10 +128,10 @@
           </div>
         </div>
         <!-- USER POST -->
-        <div class="story">
+        <div class="story" v-for="(post, index) in userPost" :key="index">
           <div class="disp-flex usernav">
             <div class="circle mini-circle">
-              <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
+              <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="lambo">
             </div>
             <div class="identity">
               <p class="post-username">{{ userData.profilname }}</p>
@@ -139,12 +139,10 @@
             </div>
           </div>
           <div class="post-comment">
-            <p>
-              Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
+            <p>{{ post.description }}</p>
           </div>
           <div class="audio">
-            <audio src="audio.wav" preload="auto" controls></audio>
+            <audio :src="`http://localhost:5001/uploads/audios/${post.audio}`" preload="auto" controls></audio>
           </div>
         </div>
       </div>
@@ -159,6 +157,7 @@ export default {
     return {
       loading: true,
       userData: '',
+      userPost: '',
       showUpdateForm: false,
       showBannerForm: false,
       showProfilpicForm: false,
@@ -175,6 +174,7 @@ export default {
     }, 2000)
     const userId = localStorage.getItem('userId')
     if (userId) {
+      // Fetch user info
       this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
         .then((res) => {
           return res.data
@@ -183,6 +183,15 @@ export default {
           return err
         })
       console.log(this.userData)
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      console.log('User post', this.userPost)
     } else {
       this.$router.push('/login')
     }
@@ -659,6 +668,9 @@ a{
 
 .circle {
   border: 2px solid white;
+  box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
+  -webkit-box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
+  -moz-box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -705,13 +717,18 @@ a{
 }
 
 .post-username {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 500;
+  margin-top: -5px;
+}
+
+.post-pseudo {
+  margin-top: 6px;
 }
 
 .post-comment{
-  margin: 20px 0;
-  font-weight: 200;
+  margin: 18px 0;
+  font-weight: 400;
   line-height: 1.5rem;
 }
 

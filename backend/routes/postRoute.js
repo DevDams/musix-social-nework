@@ -16,11 +16,11 @@ router.post('/post', uploadAudio.single('file'), async (req, res) => {
 
 
 // GET ALL POST
-router.get('/post/:id', async(req, res) => {
+router.get('/user/post/:id', async (req, res) => {
     const userId = req.params.id
-    const user = await PostController.getPost(userId)
-    if (user !== null) {
-        res.status(200).json(user)
+    const post = await PostController.getPost(userId)
+    if (post !== null) {
+        res.status(200).json(post)
     } else {
         res.status(404).json({ message: 'User not found' })
     }

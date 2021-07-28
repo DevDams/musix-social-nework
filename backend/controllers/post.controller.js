@@ -17,9 +17,9 @@ module.exports = class PostController {
     }
 
     static async getPost(data) {
-        const user = Post.find({ "userId": data })
-        if (user) {
-            return user
+        const post = Post.find({ "userId": data })
+        if (post) {
+            return post
         } else {
             return { message: "user not found" }
         }
