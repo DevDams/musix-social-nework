@@ -142,7 +142,21 @@
             <p>{{ post.description }}</p>
           </div>
           <div class="audio">
-            <audio :src="`http://localhost:5001/uploads/audios/${post.audio}`" preload="auto" controls></audio>
+            <div class="music-player">
+              <div class="controls">
+                <div class="play-pause">
+                  <img src="~/assets/svg/play.svg" alt="">
+                </div>
+              </div>
+              <div class="progress-area">
+                <div class="progress-bar"></div>
+                <div class="timer">
+                  <span class="current">0:00</span>
+                  <span class="duration"></span>
+                </div>
+                <audio id="main-audio" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -153,6 +167,16 @@
 <script>
 import axios from 'axios'
 export default {
+  // head () {
+  //   return {
+  //     script: [
+  //       {
+  //         src: '/js/audio.js',
+  //         body: true
+  //       }
+  //     ]
+  //   }
+  // },
   data () {
     return {
       loading: true,
@@ -795,5 +819,67 @@ audio {
   -moz-border-radius: 13px;
   -ms-border-radius: 13px;
   -o-border-radius: 13px;
+}
+
+/* MUSIC PLAYER */
+.music-player {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.219);
+  box-shadow: 0px 6px 30px -20px black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.progress-area {
+  height: 6px;
+  width: 100%;
+  background: #f0f0f0;
+  border-radius: 50px;
+  margin-top: -8px;
+  margin-left: 10px;
+}
+
+.progress-area .progress-bar {
+  position: relative;
+  height: inherit;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #42ACF2 0%,#B042F2 100%);
+}
+
+.progress-area .progress-bar::before {
+  position: absolute;
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: inherit;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  background: inherit;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.progress-area:hover .progress-bar::before {
+  opacity: 1;
+}
+
+.progress-area .timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: dimgrey;
+  margin-top: 4px;
+}
+
+.controls .play-pause img {
+  user-select: none;
+  width: 21px;
+  cursor: pointer;
 }
 </style>
