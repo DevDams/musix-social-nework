@@ -189,7 +189,7 @@ export default {
       this.loading = false
     }, 2000)
     const userId = localStorage.getItem('userId')
-    if (userId) {
+    if (userId !== undefined) {
       // Fetch user info
       this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
         .then((res) => {
