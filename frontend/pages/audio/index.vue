@@ -52,107 +52,17 @@
               <audio src="audio.wav" preload="auto" controls></audio>
             </div>
           </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum error assumenda voluptatem itaque sint dicta suscipit illum doloremque libero dolorem obcaecati veritatis placeat, consequuntur dolores, fuga non. Dicta, ex cum.
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores molestias doloremque aperiam a inventore deserunt aliquid eos officiis esse dicta atque, consectetur aspernatur, quod possimus commodi maiores ab ad. Temporibus?
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim aspernatur facere ipsam, est impedit ullam nostrum sed illum? Perferendis totam consectetur quod vero quae aperiam hic dolorem, enim voluptatum! Assumenda.
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
         </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  mounted () {
+    
+  },
   methods: {
     logOut () {
       localStorage.removeItem('userId')
