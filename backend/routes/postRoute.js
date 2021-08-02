@@ -26,4 +26,17 @@ router.get('/user/post/:id', async (req, res) => {
     }
 })
 
+
+// LIKE A POST
+router.put('/post/:id/like', async (req, res) => {
+    const postId = req.params.id
+    const userId = req.body.userId
+    const { like } = await PostController.likePost(postId, userId)
+    if (like) {
+        return res.status(200).json({ message: "Le post a été liké" })
+    } else {
+        return res.status(201).json({ message: "Le post a été disliké" })
+    }
+})
+
 module.exports = router

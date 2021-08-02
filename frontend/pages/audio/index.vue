@@ -37,39 +37,47 @@
       <div class="title">
         <h1>Mes audios</h1>
       </div>
-        <div class="story-content">
-          <div class="story" v-for="(post, index) in userPost" :key="index">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">{{ userData.profilname }}</p>
-                <p class="pseudo">@{{ userData.pseudo }}</p>
-              </div>
+      <div class="content-overlay" v-show="loading">
+        <img src="~/assets/svg/oval.svg" alt="">
+      </div>
+      <div class="story-content">
+        <div class="story" v-for="(post, index) in userPost" :key="index">
+          <div class="disp-flex usernav">
+            <div class="circle mini-circle">
+              <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="lambo">
             </div>
-            <div class="post-comment">
-              <p>{{ post.description }}</p>
+            <div class="identity">
+              <p class="username">{{ userData.profilname }}</p>
+              <p class="pseudo">@{{ userData.pseudo }}</p>
             </div>
-            <div class="audio" @mouseover="hover(index)">
-              <div :class="`music-player-${index} music-player`">
-                <div :class="`controls-${index} controls`">
-                  <div @click="playPause" :class="`play-pause-${index} play-pause`">
-                    <img src="~/assets/svg/play.svg" alt="">
-                  </div>
+          </div>
+          <div class="post-comment">
+            <p>{{ post.description }}</p>
+          </div>
+          <div class="audio" @mouseover="hover(index)">
+            <div :class="`music-player-${index} music-player`">
+              <div :class="`controls-${index} controls`">
+                <div @click="playPause" :class="`play-pause-${index} play-pause`">
+                  <img src="~/assets/svg/play.svg" alt="">
                 </div>
-                <div @click="updateAudioPosition" :class="`progress-area-${index} progress-area`">
-                  <div :class="`progress-bar-${index} progress-bar`"></div>
-                  <div :class="`timer-${index} timer`">
-                    <span :class="`current-${index} current`">0:00</span>
-                    <span :class="`duration-${index} duration`"></span>
-                  </div>
-                  <audio @timeupdate="audioProgressBar" :class="`main-audio-${index} main-audio`" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
+              </div>
+              <div @click="updateAudioPosition" :class="`progress-area-${index} progress-area`">
+                <div :class="`progress-bar-${index} progress-bar`"></div>
+                <div :class="`timer-${index} timer`">
+                  <span :class="`current-${index} current`">0:00</span>
+                  <span :class="`duration-${index} duration`"></span>
                 </div>
+                <audio @timeupdate="audioProgressBar" :class="`main-audio-${index} main-audio`" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
               </div>
             </div>
           </div>
+          <div class="like-btn" @click="likePost(post._id)">
+            <p>
+              J'aime ❤
+            </p>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -256,10 +264,26 @@ a{
 
 /* CONTENU PRINCIPAL */
 .user-contain{
+  position: relative;
   border-left: 2px solid #e2e2e2;
   padding: 30px;
   width: 70%;
   margin-left: 330px;
+}
+
+.content-overlay {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 100%;
+  background: white;
+  z-index: 24;
+}
+
+.content-overlay img {
+  width: 35px;
 }
 
 .title{
@@ -410,6 +434,20 @@ a{
 .controls .play-pause img {
   user-select: none;
   width: 28px;
+  cursor: pointer;
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  margin-top: 20px;
+  border-radius: 13px;
+  padding: 5px;
+  background: #42ACF2;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
 }
 </style>

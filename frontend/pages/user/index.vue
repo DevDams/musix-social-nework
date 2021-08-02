@@ -158,6 +158,11 @@
               </div>
             </div>
           </div>
+          <div class="like-btn" @click="likePost(post._id)">
+            <p>
+              J'aime ❤
+            </p>
+          </div>
         </div>
       </div>
   </div>
@@ -315,6 +320,14 @@ export default {
       const songDuration = this.audio.duration
       this.audio.currentTime = (clickedOffsetx / progressWithVal) * songDuration
       this.playMusic()
+    },
+    // Like post
+    async likePost (id) {
+      const data = {
+        userId: localStorage.getItem('userId')
+      }
+      const like = await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+      console.log(like)
     }
   }
 }
@@ -703,6 +716,7 @@ a{
 
 /* CONTENU PRINCIPAL */
 .user-contain {
+  position: relative;
   border-left: 1px solid #e2e2e2;
   width: 70%;
   margin-left: 330px;
@@ -713,7 +727,7 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 70%;
   height: 100%;
   background: white;
   z-index: 24;
@@ -923,6 +937,20 @@ a{
 .controls .play-pause img {
   user-select: none;
   width: 28px;
+  cursor: pointer;
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  margin-top: 20px;
+  border-radius: 13px;
+  padding: 5px;
+  background: #42ACF2;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
 }
 </style>

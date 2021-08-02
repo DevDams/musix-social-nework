@@ -24,4 +24,15 @@ module.exports = class PostController {
             return { message: "user not found" }
         }
     }
+
+    static async likePost(postId, userId) {
+        const post = await Post.findById(postId)
+        if (!post.likes.includes(userId)) {
+            await post.updateOne({ $push: { likes: userId } })
+            return { like: true }
+        } else {
+            await post.updateOne({ $pull: { likes: userId } })
+            return { like: false }
+        }
+    }
 }

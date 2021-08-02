@@ -38,7 +38,7 @@
         <div class="post-header">
           <h2>Ajouter un nouvel audio...</h2>
         </div>
-        <div class="post-form">
+        <div class="post-form" v-show="post">
           <div class="form">
             <form action="/" method="POST">
               <div class="label">
@@ -49,10 +49,31 @@
                 <span>Choisissez un audio</span>
                 <input @change="processFile($event)" type="file" name="audio" id="audio">
               </div>
+              <span class="alert" v-show="alert">*Veillez choisir un fichier audio...</span>
               <button type="submit" @click="postAudio">
                 Ajouter
               </button>
             </form>
+          </div>
+        </div>
+        <div class="success-post" v-show="message">
+          <div class="success" v-show="success">
+            <p>
+              Audio ajouté avec succes !
+            </p>
+            <button @click="postOk">Compris</button>
+            <button>
+              <nuxt-link to="/audio">Aller à mes audios</nuxt-link>
+            </button>
+          </div>
+          <div class="fail" v-show="fail">
+            <p>
+              Oups... Quelque chose s'est mal passé, rééssayez !
+            </p>
+            <button @click="postOk">Compris</button>
+            <button>
+              <nuxt-link to="/audio">Aller à mes audios</nuxt-link>
+            </button>
           </div>
         </div>
       </div>
@@ -66,7 +87,12 @@ export default {
   data () {
     return {
       description: '',
-      audio: ''
+      audio: '',
+      alert: false,
+      post: true,
+      success: false,
+      fail: false,
+      message: false
     }
   },
   mounted () {
@@ -84,8 +110,14 @@ export default {
     },
     processFile (event) {
       this.audio = event.target.files[0]
+      if (this.audio !== '' || this.audio !== undefined) {
+        this.alert = false
+      }
     },
     async postAudio (e) {
+      if (this.audio === '' || this.audio === undefined) {
+        this.alert = true
+      }
       e.preventDefault()
       const userId = localStorage.getItem('userId')
       const file = this.audio
@@ -94,7 +126,19 @@ export default {
       formData.append('userId', userId)
       formData.append('description', this.description)
       const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/post', data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(sendData)
+      console.log(sendData.data)
+      if (sendData) {
+        this.message = true
+        this.success = true
+        this.post = false
+      }
+    },
+    postOk () {
+      this.description = ''
+      this.audio = ''
+      this.message = false
+      this.success = false
+      this.post = true
     }
   }
 }
@@ -171,8 +215,12 @@ a{
   width: 21px;
 }
 
+/* RIGHT CONTENT */
+
 .post-side {
+  position: relative;
   width: 70%;
+  height: 100vh;
   margin-left: 330px;
   text-align: center;
 }
@@ -191,7 +239,7 @@ a{
 
 .form {
   width: 400px;
-  height: 400px;
+  height: 370px;
   margin: 100px auto 0;
   border: 1px solid gray;
   border-radius: 13px;
@@ -231,7 +279,7 @@ form .label input {
 }
 
 form button {
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
   width: 100%;
   height: 40px;
@@ -242,5 +290,56 @@ form button {
   border: none;
   cursor: pointer;
   box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
+form span.alert {
+  display: inline-block;
+  padding-top: 20px;
+  color: red;
+}
+
+.success-post {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success {
+  position: absolute;
+  top: 35%;
+  border: 1px solid rgba(0, 0, 0, 0.37);
+  border-radius: 13px;
+  background: white;
+  width: 370px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
+.success p {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+
+.success button {
+  border: none;
+  outline: none;
+  background: #42ACF2;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 30px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.success button a {
+  color: white;
 }
 </style>
