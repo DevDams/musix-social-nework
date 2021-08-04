@@ -17,7 +17,7 @@ module.exports = class PostController {
     }
 
     static async getPost(data) {
-        const post = Post.find({ "userId": data })
+        const post = await Post.find({ "userId": data })
         if (post) {
             return post
         } else {

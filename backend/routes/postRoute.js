@@ -10,7 +10,7 @@ router.post('/post', uploadAudio.single('file'), async (req, res) => {
     if (success) {
         return res.status(200).json({ message: "Audio ajouté avec succes !" })
     } else {
-        return res.status(201).json({ message: "Quelque chose s'est mal passé. Veillez réessayer" })
+        return res.status(201).json({ message: "Quelque chose s'est mal passé. Veuillez réessayer" })
     }
 })
 

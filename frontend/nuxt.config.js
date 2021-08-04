@@ -19,6 +19,9 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {src: '/js/audio.js', defer: true}
     ]
   },
 
@@ -26,10 +29,6 @@ export default {
   css: [
     "~assets/fonts/style.css",
     "~assets/css/global.css"
-  ],
-
-  script: [
-    { src: "~assets/js/audio.js"}
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

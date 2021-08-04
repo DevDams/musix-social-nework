@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const UserController = require('../controllers/user.controller')
 const uploadImage = require('../helpers/uploadImage.helper')
+// const uploadAudio= require('../helpers/uploadAudio.helper')
 
 
 // GET USER INFO
@@ -47,7 +48,15 @@ router.post('/user/upload/profilpic/:id', uploadImage.single('file'), async (req
         res.send(201).json({ message: "Oups... Quelque chose s'est mal passé, veillez rééssayer" })
     }
 })
-
+// UPDATE USER AUDIO
+// router.post('/user/upload/audio/:id', uploadAudio.single('file'), async (req, res) => {
+//     const user = await UserController.updateAudio(req.file, req.params.id)
+//     if (user) {
+//         res.status(200).json(user)
+//     } else {
+//         res.send(201).json({ message: "Oups... Quelque chose s'est mal passé, veillez rééssayer" })
+//     }
+// })
 
 
 module.exports = router
