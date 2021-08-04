@@ -37,126 +37,166 @@
       <div class="title">
         <h1>Mes audios</h1>
       </div>
-        <div class="story-content">
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://media.istockphoto.com/photos/dramatic-twilight-cloudscape-sunset-sunrise-picture-id1158514405?k=6&m=1158514405&s=612x612&w=0&h=Kyo1MLQeLP-cmyVB_ucvzVL17-iKapYnlnRdrs9NV-M=" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
+      <div class="content-overlay" v-show="loading">
+        <img src="~/assets/svg/oval.svg" alt="">
+      </div>
+      <div class="story-content">
+        <div class="story" v-for="(post, index) in userPost" :key="index">
+          <div class="disp-flex usernav">
+            <div class="circle mini-circle">
+              <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="lambo">
             </div>
-            <div class="audio">
-              <audio src="audio.wav" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum error assumenda voluptatem itaque sint dicta suscipit illum doloremque libero dolorem obcaecati veritatis placeat, consequuntur dolores, fuga non. Dicta, ex cum.
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
+            <div class="identity">
+              <p class="username">{{ userData.profilname }}</p>
+              <p class="pseudo">@{{ userData.pseudo }}</p>
             </div>
           </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
+          <div class="post-comment">
+            <p>{{ post.description }}</p>
+          </div>
+          <div class="audio" @mouseover="hover(index)">
+            <div :class="`music-player-${index} music-player`">
+              <div :class="`controls-${index} controls`">
+                <div @click="playPause" :class="`play-pause-${index} play-pause`">
+                  <img src="~/assets/svg/play.svg" alt="">
+                </div>
               </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
+              <div @click="updateAudioPosition" :class="`progress-area-${index} progress-area`">
+                <div :class="`progress-bar-${index} progress-bar`"></div>
+                <div :class="`timer-${index} timer`">
+                  <span :class="`current-${index} current`">0:00</span>
+                  <span :class="`duration-${index} duration`"></span>
+                </div>
+                <audio @timeupdate="audioProgressBar" :class="`main-audio-${index} main-audio`" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
               </div>
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
             </div>
           </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores molestias doloremque aperiam a inventore deserunt aliquid eos officiis esse dicta atque, consectetur aspernatur, quod possimus commodi maiores ab ad. Temporibus?
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
-          <div class="story">
-            <div class="disp-flex usernav">
-              <div class="circle mini-circle">
-                <img src="https://i.guim.co.uk/img/media/cd59a408307ade77175cbef95d736687c971baf6/0_1869_5792_3473/master/5792.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=1ccd7a4b4f2daa05ff26a5393439025c" alt="lambo">
-              </div>
-              <div class="identity">
-                <p class="username">Lorem ipsum.</p>
-                <p class="pseudo">@lorem123</p>
-              </div>
-            </div>
-            <div class="comment">
-              <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim aspernatur facere ipsam, est impedit ullam nostrum sed illum? Perferendis totam consectetur quod vero quae aperiam hic dolorem, enim voluptatum! Assumenda.
-              </p>
-            </div>
-            <div class="story-cover">
-              <img src="https://img-4.linternaute.com/Pb072YlIGB6w9EHFmJ3WI1NWbtE=/660x366/smart/686c7440c6f1419996abe4af9cb6f70a/ccmcms-linternaute/11101673.jpg" alt="story cover">
-            </div>
-            <div class="audio">
-              <audio src="" preload="auto" controls></audio>
-            </div>
-          </div>
+          <span class="like-btn" @click="likePost(post._id)">
+            {{ post.likes.length }} <span class="heart">❤</span>
+          </span>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  data () {
+    return {
+      loading: true,
+      userData: '',
+      userPost: ''
+    }
+  },
+  async mounted () {
+    setTimeout(() => {
+      this.loading = false
+    }, 2000)
+    const userId = localStorage.getItem('userId')
+    if (userId !== undefined) {
+      // Fetch user info
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+    } else {
+      this.$router.push('/login')
+    }
+  },
   methods: {
     logOut () {
       localStorage.removeItem('userId')
       this.$router.push('/login')
+    },
+    // test to log index
+    hover (index) {
+      this.indexPost = index
+      const audio = document.querySelector(`.main-audio-${this.indexPost}`)
+      this.audio = audio
+    },
+    // play audio
+    playMusic () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      // const audio = document.querySelector(`.main-audio-${this.indexPost}`)
+      const playPauseBtn = document.querySelector(`.play-pause-${this.indexPost}`)
+      musicPlayer.classList.add('paused')
+      playPauseBtn.querySelector('img').src = '/icons/pause.svg'
+      this.audio.play()
+    },
+    // pause audio
+    pauseMusic () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      // const audio = document.querySelector(`#main-audio-${this.indexPost}`)
+      const playPauseBtn = document.querySelector(`.play-pause-${this.indexPost}`)
+      musicPlayer.classList.remove('paused')
+      playPauseBtn.querySelector('img').src = '/icons/play.svg'
+      this.audio.pause()
+    },
+    // Play - Pause button
+    playPause () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      const isMusicPaused = musicPlayer.classList.contains('paused')
+      isMusicPaused ? this.pauseMusic() : this.playMusic()
+    },
+    // Progress bar when audio is playing
+    audioProgressBar (e) {
+      const progress = document.querySelector(`.progress-bar-${this.indexPost}`)
+      const currentTime = e.target.currentTime
+      const duration = e.target.duration
+      const progressWidth = (currentTime / duration) * 100
+      progress.style.width = `${progressWidth}%`
+      const musicDuration = document.querySelector(`.duration-${this.indexPost}`)
+      const musicCurrentTime = document.querySelector(`.current-${this.indexPost}`)
+      const totalMin = Math.floor(duration / 60)
+      let totalSec = Math.floor(duration % 60)
+      if (totalSec < 10) {
+        totalSec = `0${totalSec}`
+      }
+      musicDuration.innerHTML = `${totalMin}:${totalSec}`
+      const currentMin = Math.floor(currentTime / 60)
+      let currentSec = Math.floor(currentTime % 60)
+      if (currentSec < 10) {
+        currentSec = `0${currentSec}`
+      }
+      musicCurrentTime.innerHTML = `${currentMin}:${currentSec}`
+    },
+    // Update audio playing time
+    updateAudioPosition (e) {
+      const progressArea = document.querySelector(`.progress-area-${this.indexPost}`)
+      // const audio = document.querySelector(`#main-audio-${this.indexPost}`)
+      const progressWithVal = progressArea.clientWidth
+      const clickedOffsetx = e.offsetX
+      const songDuration = this.audio.duration
+      this.audio.currentTime = (clickedOffsetx / progressWithVal) * songDuration
+      this.playMusic()
+    },
+    // Like post
+    async likePost (id) {
+      const data = {
+        userId: localStorage.getItem('userId')
+      }
+      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
     }
   }
 }
@@ -235,10 +275,26 @@ a{
 
 /* CONTENU PRINCIPAL */
 .user-contain{
+  position: relative;
   border-left: 2px solid #e2e2e2;
   padding: 30px;
   width: 70%;
   margin-left: 330px;
+}
+
+.content-overlay {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 100%;
+  background: white;
+  z-index: 24;
+}
+
+.content-overlay img {
+  width: 35px;
 }
 
 .title{
@@ -268,7 +324,8 @@ a{
 }
 
 .username{
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .descrip{
@@ -276,17 +333,17 @@ a{
   margin: 20px auto;
 }
 
-.comment{
-  margin: 20px 0;
+.post-comment{
+  margin: 14px 0;
 }
 
 .story{
-  padding: 20px;
+  margin: 45px 15px !important;
 }
 
 .mini-circle{
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
 }
 
 .box-button{
@@ -329,26 +386,83 @@ a{
   margin: auto;
 }
 
-.story-cover img{
-  width: 100%;
-  border-radius: 13px;
-  -webkit-border-radius: 13px;
-  -moz-border-radius: 13px;
-  -ms-border-radius: 13px;
-  -o-border-radius: 13px;
+/* MUSIC PLAYER */
+.music-player {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  height: 65px;
+  border: 2.5px solid #42acf2bd;
+  box-shadow: 0px 6px 30px -20px rgba(0, 0, 0, 0.301);
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.audio{
-  margin: 20px 0;
+.progress-area {
+  height: 5px;
+  width: 100%;
+  background: #e8e8e8;
+  border-radius: 50px;
+  margin-top: -8px;
+  margin-left: 10px;
 }
 
-audio{
-  width: 100%;
-  background-color: #f2f3f4;
+.progress-area .progress-bar {
+  position: relative;
+  height: inherit;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #42ACF2 0%,#B042F2 100%);
+}
+
+.progress-area .progress-bar::before {
+  position: absolute;
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: inherit;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  background: inherit;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.progress-area:hover .progress-bar::before {
+  opacity: 1;
+}
+
+.progress-area .timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: dimgrey;
+  margin-top: 8px;
+}
+
+.controls .play-pause img {
+  user-select: none;
+  width: 28px;
+  cursor: pointer;
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  margin-top: 20px;
   border-radius: 13px;
-  -webkit-border-radius: 13px;
-  -moz-border-radius: 13px;
-  -ms-border-radius: 13px;
-  -o-border-radius: 13px;
+  padding: 5px;
+  background: #42ACF2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.like-btn .heart {
+  margin-left: 8px;
 }
 </style>

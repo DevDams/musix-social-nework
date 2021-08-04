@@ -141,23 +141,26 @@
           <div class="post-comment">
             <p>{{ post.description }}</p>
           </div>
-          <div class="audio">
-            <div class="music-player">
-              <div class="controls">
-                <div class="play-pause">
+          <div class="audio" @mouseover="hover(index)">
+            <div :class="`music-player-${index} music-player`">
+              <div :class="`controls-${index} controls`">
+                <div @click="playPause" :class="`play-pause-${index} play-pause`">
                   <img src="~/assets/svg/play.svg" alt="">
                 </div>
               </div>
-              <div class="progress-area">
-                <div class="progress-bar"></div>
-                <div class="timer">
-                  <span class="current">0:00</span>
-                  <span class="duration"></span>
+              <div @click="updateAudioPosition" :class="`progress-area-${index} progress-area`">
+                <div :class="`progress-bar-${index} progress-bar`"></div>
+                <div :class="`timer-${index} timer`">
+                  <span :class="`current-${index} current`">0:00</span>
+                  <span :class="`duration-${index} duration`"></span>
                 </div>
-                <audio id="main-audio" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
+                <audio @timeupdate="audioProgressBar" :class="`main-audio-${index} main-audio`" :src="`http://localhost:5001/uploads/audios/${post.audio}`"></audio>
               </div>
             </div>
           </div>
+          <span class="like-btn" @click="likePost(post._id)">
+            {{ post.likes.length }} <span class="heart">❤</span>
+          </span>
         </div>
       </div>
   </div>
@@ -167,16 +170,6 @@
 <script>
 import axios from 'axios'
 export default {
-  // head () {
-  //   return {
-  //     script: [
-  //       {
-  //         src: '/js/audio.js',
-  //         body: true
-  //       }
-  //     ]
-  //   }
-  // },
   data () {
     return {
       loading: true,
@@ -189,7 +182,9 @@ export default {
       pseudo: '',
       bio: '',
       photo: '',
-      modifResponse: ''
+      modifResponse: '',
+      indexPost: '',
+      audio: ''
     }
   },
   async mounted () {
@@ -197,7 +192,7 @@ export default {
       this.loading = false
     }, 2000)
     const userId = localStorage.getItem('userId')
-    if (userId) {
+    if (userId !== undefined) {
       // Fetch user info
       this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
         .then((res) => {
@@ -206,7 +201,6 @@ export default {
         .catch(function (err) {
           return err
         })
-      console.log(this.userData)
       // Fetch user post
       this.userPost = await axios.get(`http://localhost:5001/api/user/post/${userId}`)
         .then((res) => {
@@ -215,7 +209,6 @@ export default {
         .catch(function (err) {
           return err
         })
-      console.log('User post', this.userPost)
     } else {
       this.$router.push('/login')
     }
@@ -245,24 +238,98 @@ export default {
         pseudo: this.pseudo,
         bio: this.bio
       }
-      const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
-      console.log(sendData)
+      await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
     },
     async updateBanner () {
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
-      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(sendData)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
     },
     async updateProfilPic () {
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
-      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(sendData)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+    },
+    // test to log index
+    hover (index) {
+      this.indexPost = index
+      const audio = document.querySelector(`.main-audio-${this.indexPost}`)
+      this.audio = audio
+    },
+    // play audio
+    playMusic () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      // const audio = document.querySelector(`.main-audio-${this.indexPost}`)
+      const playPauseBtn = document.querySelector(`.play-pause-${this.indexPost}`)
+      musicPlayer.classList.add('paused')
+      playPauseBtn.querySelector('img').src = '/icons/pause.svg'
+      this.audio.play()
+    },
+    // pause audio
+    pauseMusic () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      // const audio = document.querySelector(`#main-audio-${this.indexPost}`)
+      const playPauseBtn = document.querySelector(`.play-pause-${this.indexPost}`)
+      musicPlayer.classList.remove('paused')
+      playPauseBtn.querySelector('img').src = '/icons/play.svg'
+      this.audio.pause()
+    },
+    // Play - Pause button
+    playPause () {
+      const musicPlayer = document.querySelector(`.music-player-${this.indexPost}`)
+      const isMusicPaused = musicPlayer.classList.contains('paused')
+      isMusicPaused ? this.pauseMusic() : this.playMusic()
+    },
+    // Progress bar when audio is playing
+    audioProgressBar (e) {
+      const progress = document.querySelector(`.progress-bar-${this.indexPost}`)
+      const currentTime = e.target.currentTime
+      const duration = e.target.duration
+      const progressWidth = (currentTime / duration) * 100
+      progress.style.width = `${progressWidth}%`
+      const musicDuration = document.querySelector(`.duration-${this.indexPost}`)
+      const musicCurrentTime = document.querySelector(`.current-${this.indexPost}`)
+      const totalMin = Math.floor(duration / 60)
+      let totalSec = Math.floor(duration % 60)
+      if (totalSec < 10) {
+        totalSec = `0${totalSec}`
+      }
+      musicDuration.innerHTML = `${totalMin}:${totalSec}`
+      const currentMin = Math.floor(currentTime / 60)
+      let currentSec = Math.floor(currentTime % 60)
+      if (currentSec < 10) {
+        currentSec = `0${currentSec}`
+      }
+      musicCurrentTime.innerHTML = `${currentMin}:${currentSec}`
+    },
+    // Update audio playing time
+    updateAudioPosition (e) {
+      const progressArea = document.querySelector(`.progress-area-${this.indexPost}`)
+      // const audio = document.querySelector(`#main-audio-${this.indexPost}`)
+      const progressWithVal = progressArea.clientWidth
+      const clickedOffsetx = e.offsetX
+      const songDuration = this.audio.duration
+      this.audio.currentTime = (clickedOffsetx / progressWithVal) * songDuration
+      this.playMusic()
+    },
+    // Like post
+    async likePost (id) {
+      const data = {
+        userId: localStorage.getItem('userId')
+      }
+      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
     }
   }
 }
@@ -651,6 +718,7 @@ a{
 
 /* CONTENU PRINCIPAL */
 .user-contain {
+  position: relative;
   border-left: 1px solid #e2e2e2;
   width: 70%;
   margin-left: 330px;
@@ -661,20 +729,20 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 70%;
   height: 100%;
   background: white;
   z-index: 24;
 }
 
 .content-overlay img {
-  width: 45px;
+  width: 35px;
 }
 
 .profil-content {
   width: 100%;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   padding-bottom: 60px;
   border-bottom: 1px solid #dddddd;
 }
@@ -752,7 +820,8 @@ a{
 
 .post-comment{
   margin: 18px 0;
-  font-weight: 400;
+  font-weight: 500;
+  font-size: 17px;
   line-height: 1.5rem;
 }
 
@@ -760,14 +829,14 @@ a{
   width: 630px;
   margin: auto;
   padding: 0 20px;
-  margin-top: 50px;
-  padding-bottom: 50px;
+  margin-top: 30px;
+  padding-bottom: 30px;
   border-bottom: 1px solid #dddddd;
 }
 
 .mini-circle {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
 }
 
 .box-button {
@@ -811,32 +880,22 @@ a{
   -o-border-radius: 13px;
 }
 
-audio {
-  width: 100%;
-  background-color: #f2f3f4;
-  border-radius: 13px;
-  -webkit-border-radius: 13px;
-  -moz-border-radius: 13px;
-  -ms-border-radius: 13px;
-  -o-border-radius: 13px;
-}
-
 /* MUSIC PLAYER */
 .music-player {
   display: flex;
   align-items: center;
-  width: 320px;
-  height: 50px;
-  border: 1px solid rgba(0, 0, 0, 0.219);
-  box-shadow: 0px 6px 30px -20px black;
+  width: 95%;
+  height: 65px;
+  border: 2.5px solid #42acf2bd;
+  box-shadow: 0px 6px 30px -20px rgba(0, 0, 0, 0.301);
   border-radius: 10px;
   padding: 10px;
 }
 
 .progress-area {
-  height: 6px;
+  height: 5px;
   width: 100%;
-  background: #f0f0f0;
+  background: #e8e8e8;
   border-radius: 50px;
   margin-top: -8px;
   margin-left: 10px;
@@ -872,14 +931,32 @@ audio {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
   color: dimgrey;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .controls .play-pause img {
   user-select: none;
-  width: 21px;
+  width: 28px;
   cursor: pointer;
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  margin-top: 20px;
+  border-radius: 13px;
+  padding: 5px;
+  background: #42ACF2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.like-btn .heart {
+  margin-left: 8px;
 }
 </style>
