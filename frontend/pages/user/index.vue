@@ -158,11 +158,9 @@
               </div>
             </div>
           </div>
-          <div class="like-btn" @click="likePost(post._id)">
-            <p>
-              J'aime ❤
-            </p>
-          </div>
+          <span class="like-btn" @click="likePost(post._id)">
+            {{ post.likes.length }} <span class="heart">❤</span>
+          </span>
         </div>
       </div>
   </div>
@@ -240,24 +238,21 @@ export default {
         pseudo: this.pseudo,
         bio: this.bio
       }
-      const sendData = await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
-      console.log(sendData)
+      await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
     },
     async updateBanner () {
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
-      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(sendData)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
     },
     async updateProfilPic () {
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
-      const sendData = await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(sendData)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
     },
     // test to log index
     hover (index) {
@@ -326,8 +321,15 @@ export default {
       const data = {
         userId: localStorage.getItem('userId')
       }
-      const like = await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
-      console.log(like)
+      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
     }
   }
 }
@@ -944,7 +946,7 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
+  width: 80px;
   margin-top: 20px;
   border-radius: 13px;
   padding: 5px;
@@ -952,5 +954,9 @@ a{
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+.like-btn .heart {
+  margin-left: 8px;
 }
 </style>

@@ -71,11 +71,9 @@
               </div>
             </div>
           </div>
-          <div class="like-btn" @click="likePost(post._id)">
-            <p>
-              J'aime ❤
-            </p>
-          </div>
+          <span class="like-btn" @click="likePost(post._id)">
+            {{ post.likes.length }} <span class="heart">❤</span>
+          </span>
         </div>
       </div>
     </div>
@@ -106,7 +104,6 @@ export default {
         .catch(function (err) {
           return err
         })
-      console.log(this.userData)
       // Fetch user post
       this.userPost = await axios.get(`http://localhost:5001/api/user/post/${userId}`)
         .then((res) => {
@@ -115,7 +112,6 @@ export default {
         .catch(function (err) {
           return err
         })
-      console.log(this.userPost)
     } else {
       this.$router.push('/login')
     }
@@ -186,6 +182,21 @@ export default {
       const songDuration = this.audio.duration
       this.audio.currentTime = (clickedOffsetx / progressWithVal) * songDuration
       this.playMusic()
+    },
+    // Like post
+    async likePost (id) {
+      const data = {
+        userId: localStorage.getItem('userId')
+      }
+      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+      // Fetch user post
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
     }
   }
 }
@@ -441,7 +452,7 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
+  width: 80px;
   margin-top: 20px;
   border-radius: 13px;
   padding: 5px;
@@ -449,5 +460,9 @@ a{
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+.like-btn .heart {
+  margin-left: 8px;
 }
 </style>

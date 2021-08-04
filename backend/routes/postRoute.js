@@ -39,4 +39,15 @@ router.put('/post/:id/like', async (req, res) => {
     }
 })
 
+
+// TIMELINE POST
+router.get('/timeline/post', async (req, res) => {
+    const postArray = await PostController.getTimeline()
+    if (postArray !== null) {
+        res.status(200).json(postArray)
+    } else {
+        res.status(404).json({ message: 'No post found' })
+    }
+})
+
 module.exports = router
