@@ -19,10 +19,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
-    script: [
-      {src: '/js/audio.js', defer: true}
     ]
+    // script: [
+    //   {src: '/js/audio.js', defer: true}
+    // ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

@@ -5,7 +5,7 @@
       <!-- SIDEBAR LEFT -->
       <div class="sidebar-left">
         <div class="sidelist disp-flex">
-          <nuxt-link to="/home">
+          <nuxt-link to="/timeline">
             <img src="~/assets/svg/home.svg" alt="icon" class="icon">
             <button class="btn-none">Accueil</button>
           </nuxt-link>
@@ -170,8 +170,7 @@ a{
   position: fixed;
   height: 100%;
   padding: 50px;
-  background: #f0f0f0;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-right: 1px solid #ddd;
 }
 
 .sidelist {
@@ -188,9 +187,9 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-color: rgb(19, 19, 19);
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  color: black;
+  box-shadow: 0px 13px 30px -20px rgba(0, 0, 0, 0.466);
+  background: #202020;
   padding: 13px 20px;
   border-radius: 55px;
   -webkit-border-radius: 25px;
@@ -198,6 +197,12 @@ a{
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
   cursor: pointer;
+}
+
+.sidelist a:hover {
+  background: linear-gradient(135deg, #42ACF2 0%,#B042F2 100%);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  transition: .3s background ease-in-out;
 }
 
 .sidelist a button {

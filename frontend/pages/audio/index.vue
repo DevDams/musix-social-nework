@@ -3,7 +3,7 @@
     <!-- SIDEBAR LEFT -->
     <div class="sidebar-left">
       <div class="sidelist disp-flex">
-        <nuxt-link to="/home">
+        <nuxt-link to="/timeline">
           <img src="~/assets/svg/home.svg" alt="icon" class="icon">
           <button class="btn-none">Accueil</button>
         </nuxt-link>
@@ -228,8 +228,8 @@ a{
   position: fixed;
   height: 100%;
   padding: 50px;
-  background: #f0f0f0;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-right: 1px solid #ddd;
+  z-index: 26;
 }
 
 .sidelist {
@@ -246,9 +246,9 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-color: rgb(19, 19, 19);
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  color: black;
+  box-shadow: 0px 13px 30px -20px rgba(0, 0, 0, 0.466);
+  background: #202020;
   padding: 13px 20px;
   border-radius: 55px;
   -webkit-border-radius: 25px;
@@ -256,6 +256,12 @@ a{
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
   cursor: pointer;
+}
+
+.sidelist a:hover {
+  background: linear-gradient(135deg, #42ACF2 0%,#B042F2 100%);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  transition: .3s background ease-in-out;
 }
 
 .sidelist a button {
@@ -276,9 +282,9 @@ a{
 /* CONTENU PRINCIPAL */
 .user-contain{
   position: relative;
-  border-left: 2px solid #e2e2e2;
   padding: 30px;
   width: 70%;
+  height: 100vh;
   margin-left: 330px;
 }
 
@@ -291,16 +297,21 @@ a{
   height: 100%;
   background: white;
   z-index: 24;
+  margin-left: -280px;
 }
 
 .content-overlay img {
   width: 35px;
 }
 
-.title{
-  border-bottom: 1px solid #f3f3f3;
-  padding-bottom: 20px;
+.user-contain .title{
+  border-bottom: 1px solid #dddddd;
+  padding: 30px 0 20px 30px;
   text-transform: uppercase;
+}
+
+.user-contain .title h1 {
+  font-size: 34px;
 }
 
 .circle{
@@ -338,7 +349,7 @@ a{
 }
 
 .story{
-  margin: 45px 15px !important;
+  margin: 45px 35px !important;
 }
 
 .mini-circle{

@@ -5,7 +5,7 @@
       <!-- SIDEBAR LEFT -->
       <div class="sidebar-left">
         <div class="sidelist disp-flex">
-          <nuxt-link to="/home">
+          <nuxt-link to="/timeline">
             <img src="~/assets/svg/home.svg" alt="icon" class="icon">
             <button class="btn-none">Accueil</button>
           </nuxt-link>
@@ -163,7 +163,7 @@
           </span>
         </div>
       </div>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -230,7 +230,8 @@ export default {
     processFile (event) {
       this.photo = event.target.files[0]
     },
-    async updateUserInfo () {
+    async updateUserInfo (e) {
+      e.preventDefault()
       const userId = localStorage.getItem('userId')
       const data = {
         id: userId,
@@ -239,20 +240,63 @@ export default {
         bio: this.bio
       }
       await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
+      this.showUpdateForm = !this.showUpdateForm
+      this.username = ''
+      this.pseudo = ''
+      this.bio = ''
+      this.loading = true
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
     },
-    async updateBanner () {
+    async updateBanner (e) {
+      e.preventDefault()
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
       await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+      this.showBannerForm = !this.showBannerForm
+      this.loading = true
+      this.photo = ''
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
     },
-    async updateProfilPic () {
+    async updateProfilPic (e) {
+      e.preventDefault()
       const userId = localStorage.getItem('userId')
       const file = this.photo
       const formData = new FormData()
       formData.append('file', file)
       await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+      this.showProfilpicForm = !this.showProfilpicForm
+      this.loading = true
+      this.photo = ''
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
     },
     // test to log index
     hover (index) {
@@ -361,8 +405,8 @@ a{
   position: fixed;
   height: 100%;
   padding: 50px;
-  background: #f0f0f0;
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-right: 1px solid #ddd;
+  z-index: 26;
 }
 
 .sidelist {
@@ -379,9 +423,9 @@ a{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-color: rgb(19, 19, 19);
-  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  color: black;
+  box-shadow: 0px 13px 30px -20px rgba(0, 0, 0, 0.466);
+  background: #202020;
   padding: 13px 20px;
   border-radius: 55px;
   -webkit-border-radius: 25px;
@@ -389,6 +433,12 @@ a{
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
   cursor: pointer;
+}
+
+.sidelist a:hover {
+  background: linear-gradient(135deg, #42ACF2 0%,#B042F2 100%);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  transition: .3s background ease-in-out;
 }
 
 .sidelist a button {
@@ -719,7 +769,6 @@ a{
 /* CONTENU PRINCIPAL */
 .user-contain {
   position: relative;
-  border-left: 1px solid #e2e2e2;
   width: 70%;
   margin-left: 330px;
 }
@@ -733,6 +782,7 @@ a{
   height: 100%;
   background: white;
   z-index: 24;
+  margin-left: -200px;
 }
 
 .content-overlay img {

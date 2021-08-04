@@ -39,7 +39,6 @@ router.put('/post/:id/like', async (req, res) => {
     }
 })
 
-
 // TIMELINE POST
 router.get('/timeline/post', async (req, res) => {
     const postArray = await PostController.getTimeline()

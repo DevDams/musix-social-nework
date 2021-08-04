@@ -38,7 +38,8 @@ module.exports = class PostController {
     }
 
     static async getTimeline() {
-        const userPost = await Post.find()
+        // The find().populate('userId') is use to concatenate the post model with the user model
+        const userPost = await Post.find().populate('userId')
         if (userPost) {
             return userPost
         } else {
