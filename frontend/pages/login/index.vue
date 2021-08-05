@@ -45,7 +45,7 @@ export default {
   mounted () {
     const userId = localStorage.getItem('userId')
     if (userId) {
-      this.$router.push('/user')
+      this.$router.push('/profil')
     } else {
       return ''
     }
@@ -63,7 +63,7 @@ export default {
       const out = await axios({ method: 'post', url: 'http://localhost:5001/api/auth/login', data })
       if (out.data._id !== undefined) {
         localStorage.setItem('userId', out.data._id)
-        this.$router.push('/user')
+        this.$router.push('/profil')
       } else {
         this.error = true
       }
