@@ -17,7 +17,7 @@
           </nuxt-link>
         </div>
         <div class="sidelist disp-flex">
-          <nuxt-link to="/user">
+          <nuxt-link to="/profil">
             <img src="~/assets/svg/user.svg" alt="icon" class="icon">
             <button class="btn-none">Profil</button>
           </nuxt-link>
@@ -45,12 +45,16 @@
                 <span>Dites quelques choses à propos</span>
                 <input v-model="description" type="text" name="description" autocomplete="off">
               </div>
-              <div class="label">
-                <span>Choisissez un audio</span>
-                <input @change="processFile($event)" type="file" name="audio" id="audio">
+              <div class="drag-area">
+                <div class="download-icon">
+                  <img src="~/assets/svg/download.svg" alt="download">
+                </div>
+                <span class="choose-file-name">Aucun fichier choisi...</span>
+                <button @click="chooseAudio" class="choose-btn">Choisir un fichier</button>
+                <input @change="processFile($event)" type="file" name="audio" id="audio" hidden>
               </div>
               <span class="alert" v-show="alert">*Veillez choisir un fichier audio...</span>
-              <button type="submit" @click="postAudio">
+              <button class="submit" type="submit" @click="postAudio">
                 Ajouter
               </button>
             </form>
@@ -109,10 +113,25 @@ export default {
       this.$router.push('/login')
     },
     processFile (event) {
+      const file = document.querySelector('.choose-file-name')
       this.audio = event.target.files[0]
-      if (this.audio !== '' || this.audio !== undefined) {
+      console.log('bonjour', this.audio)
+      if (this.audio === '') {
+        file.innerHTML = 'Aucun fichier choisi...'
+      } else if (this.audio === undefined) {
+        file.innerHTML = 'Aucun fichier choisi...'
+      } else if (this.audio !== '') {
         this.alert = false
+        file.innerHTML = this.audio.name
+      } else if (this.audio !== undefined) {
+        this.alert = false
+        file.innerHTML = this.audio.name
       }
+    },
+    chooseAudio (e) {
+      e.preventDefault()
+      const audioInput = document.querySelector('#audio')
+      audioInput.click()
     },
     async postAudio (e) {
       if (this.audio === '' || this.audio === undefined) {
@@ -244,9 +263,9 @@ a{
 
 .form {
   width: 400px;
-  height: 370px;
+  height: 440px;
   margin: 100px auto 0;
-  border: 1px solid gray;
+  border: 2px solid rgba(128, 128, 128, 0.329);
   border-radius: 13px;
   background: white;
 }
@@ -268,14 +287,16 @@ form .label {
 
 form .label span {
   font-size: 18px;
+  font-weight: 500;
+  color: #202020;
 }
 
 form .label input {
   background: none;
-  height: 65px;
+  height: 55px;
   margin-top: 10px;
-  outline-color: #1a83c4;
-  border: 1px solid rgba(128, 128, 128, 0.541);
+  outline-color: #42ACF2;
+  border: 2px solid rgba(128, 128, 128, 0.363);
   border-radius: 5px;
   background: white;
   font-size: 17px;
@@ -283,7 +304,7 @@ form .label input {
   color: #303030;
 }
 
-form button {
+form button.submit {
   margin-top: 20px;
   font-size: 16px;
   width: 100%;
@@ -301,6 +322,40 @@ form span.alert {
   display: inline-block;
   padding-top: 20px;
   color: red;
+}
+
+form .drag-area {
+  border: 2px dashed #303030;
+  width: 100%;
+  height: 170px;
+  margin-top: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form .drag-area .download-icon img {
+  width: 35px;
+}
+
+form .drag-area span {
+  font-size: 21px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+form .drag-area button {
+  margin-top: 10px;
+  padding: 10px 25px;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  background: #303030;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .success-post {

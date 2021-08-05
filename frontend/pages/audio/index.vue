@@ -15,7 +15,7 @@
         </nuxt-link>
       </div>
       <div class="sidelist disp-flex">
-        <nuxt-link to="/user">
+        <nuxt-link to="/profil">
           <img src="~/assets/svg/user.svg" alt="icon" class="icon">
           <button class="btn-none">Profil</button>
         </nuxt-link>

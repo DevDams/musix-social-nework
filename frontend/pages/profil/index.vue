@@ -41,9 +41,15 @@
         </div>
         <div class="profil-content">
           <div class="profil-cover">
+            <div class="icon-edit-banner" @click="bannerForm">
+              <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
+            </div>
             <img :src="`http://localhost:5001/uploads/images/${userData.banner}`" alt="story-cover" class="usercov">
           </div>
           <div class="circle big-circle">
+            <div class="icon-edit-profilpic" @click="profilpicForm">
+              <img src="~/assets/svg/edit.svg" alt="icon" class="icon">
+            </div>
             <img :src="`http://localhost:5001/uploads/images/${userData.profilpic}`" alt="user" class="user">
           </div>
           <div class="identity">
@@ -52,6 +58,73 @@
           </div>
           <div class="descrip">
             <span>{{ userData.bio }}</span>
+          </div>
+          <div class="box-button">
+            <button class="btn" @click="updateForm">Editer profil</button>
+          </div>
+        </div>
+        <!-- EDIT PROFIL -->
+        <div class="edit-form" v-show="showUpdateForm">
+          <div class="update-profil">
+            <div class="header">
+              <button @click="updateForm">
+                <img src="~/assets/svg/close-btn.svg" alt="icon" class="icon">
+              </button>
+              <h2>Modifier le profil</h2>
+            </div>
+            <form action="/user" method="POST">
+              <div class="label">
+                <span>Nom de profil</span>
+                <input v-model="username" type="text" name="username" autocomplete="off">
+              </div>
+              <div class="label">
+                <span>Pseudo</span>
+                <input v-model="pseudo" type="text" name="pseudo" autocomplete="off">
+              </div>
+              <div class="label">
+                <span>Biograghie</span>
+                <input v-model="bio" type="text" name="bio" autocomplete="off">
+              </div>
+              <button type="submit" @click="updateUserInfo">
+                Modifier
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- EDIT BANNER -->
+        <div class="edit-bannerpic" v-show="showBannerForm">
+          <div class="update-banner">
+            <div class="header">
+              <button @click="bannerForm">
+                <img src="~/assets/svg/close-btn.svg" alt="icon" class="icon">
+              </button>
+              <h2>Modifier la photo de couverture</h2>
+            </div>
+            <form action="/user" method="POST" enctype="multipart/form-data">
+              <div class="label">
+                <span>Couverture</span>
+                <input @change="processFile($event)" type="file" name="banner" id="banner">
+              </div>
+              <button type="submit" @click="updateBanner">Modifier</button>
+            </form>
+          </div>
+        </div>
+        <!-- EDIT PROFIL PIC -->
+        <div class="edit-prodilpic" v-show="showProfilpicForm">
+          <div class="update-banner">
+            <div class="header">
+              <button @click="profilpicForm">
+                <img src="~/assets/svg/close-btn.svg" alt="icon" class="icon">
+              </button>
+              <h2>Modifier la photo de profil</h2>
+            </div>
+            <form action="/user" method="POST">
+              <div class="label">
+                <span>Photo de profil</span>
+                <input @change="processFile($event)" type="file" name="profilpic" id="profilpic">
+              </div>
+              <button type="submit" @click="updateProfilPic">Modifier</button>
+            </form>
           </div>
         </div>
         <!-- USER POST -->
@@ -102,6 +175,14 @@ export default {
       loading: true,
       userData: '',
       userPost: '',
+      showUpdateForm: false,
+      showBannerForm: false,
+      showProfilpicForm: false,
+      username: '',
+      pseudo: '',
+      bio: '',
+      photo: '',
+      modifResponse: '',
       indexPost: '',
       audio: ''
     }
@@ -110,14 +191,10 @@ export default {
     setTimeout(() => {
       this.loading = false
     }, 2000)
-    const visitUserId = localStorage.getItem('visitUserId')
     const userId = localStorage.getItem('userId')
-    if (visitUserId === userId) {
-      this.$router.push('/profil')
-    }
-    if (visitUserId !== undefined) {
+    if (userId !== undefined) {
       // Fetch user info
-      this.userData = await axios.get(`http://localhost:5001/api/user/${visitUserId}`)
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
         .then((res) => {
           return res.data
         })
@@ -125,7 +202,7 @@ export default {
           return err
         })
       // Fetch user post
-      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${visitUserId}`)
+      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${userId}`)
         .then((res) => {
           return res.data
         })
@@ -140,6 +217,86 @@ export default {
     logOut () {
       localStorage.removeItem('userId')
       this.$router.push('/login')
+    },
+    updateForm () {
+      this.showUpdateForm = !this.showUpdateForm
+    },
+    bannerForm () {
+      this.showBannerForm = !this.showBannerForm
+    },
+    profilpicForm () {
+      this.showProfilpicForm = !this.showProfilpicForm
+    },
+    processFile (event) {
+      this.photo = event.target.files[0]
+    },
+    async updateUserInfo (e) {
+      e.preventDefault()
+      const userId = localStorage.getItem('userId')
+      const data = {
+        id: userId,
+        username: this.username,
+        pseudo: this.pseudo,
+        bio: this.bio
+      }
+      await axios({ method: 'post', url: 'http://localhost:5001/api/user/update', data })
+      this.showUpdateForm = !this.showUpdateForm
+      this.username = ''
+      this.pseudo = ''
+      this.bio = ''
+      this.loading = true
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
+    },
+    async updateBanner (e) {
+      e.preventDefault()
+      const userId = localStorage.getItem('userId')
+      const file = this.photo
+      const formData = new FormData()
+      formData.append('file', file)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/banner/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+      this.showBannerForm = !this.showBannerForm
+      this.loading = true
+      this.photo = ''
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
+    },
+    async updateProfilPic (e) {
+      e.preventDefault()
+      const userId = localStorage.getItem('userId')
+      const file = this.photo
+      const formData = new FormData()
+      formData.append('file', file)
+      await axios({ method: 'post', url: `http://localhost:5001/api/user/upload/profilpic/${userId}`, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+      this.showProfilpicForm = !this.showProfilpicForm
+      this.loading = true
+      this.photo = ''
+      this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
+        .then((res) => {
+          return res.data
+        })
+        .catch(function (err) {
+          return err
+        })
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
     },
     // test to log index
     hover (index) {
@@ -326,6 +483,287 @@ a{
 
 .icon-edit-profilpic .icon {
   border-radius: 0;
+}
+
+/* UPDATE USER */
+.edit-form {
+  background: rgba(0, 0, 0, 0.13);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 26;
+}
+
+.update-profil {
+  position: absolute;
+  width: 500px;
+  height: 560px;
+  background: white;
+  border: 1px solid rgb(209, 209, 209);
+  border-radius: 13px;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  z-index: 24;
+}
+
+.update-profil .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.update-profil .header button {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #42ACF2;
+  outline: none;
+  border: none;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.update-profil .header button img {
+  width: 35px;
+}
+
+.update-profil form {
+  width: 75%;
+  margin: 60px auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-profil form .label {
+  display: flex;
+  flex-direction: column;
+  height: 85px;
+  margin-top: 10px;
+}
+
+.update-profil form .label-img {
+  height: 60px;
+}
+
+.update-profil form .label-img input {
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.update-profil form .label span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.update-profil form .label input {
+  background: none;
+  height: 65px;
+  margin-top: 10px;
+  outline-color: #1a83c4;
+  border: 2px solid rgba(128, 128, 128, 0.541);
+  border-radius: 5px;
+  background: white;
+  font-size: 17px;
+  padding-left: 10px;
+  color: #303030;
+}
+
+.update-profil form button {
+  margin-top: 40px;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
+/* UPDATE BANNER */
+.edit-bannerpic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(209, 209, 209);
+  background: rgba(0, 0, 0, 0.13);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  z-index: 26;
+}
+
+.edit-bannerpic .update-banner {
+  background: white;
+  width: 600px;
+  height: 230px;
+  border-radius: 13px;
+}
+
+.edit-bannerpic .update-banner .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.edit-bannerpic .update-banner .header button {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #42ACF2;
+  outline: none;
+  border: none;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edit-bannerpic .update-banner .header button img {
+  width: 35px;
+}
+
+.edit-bannerpic .update-banner form {
+  width: 75%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-bannerpic .update-banner form .label {
+  display: flex;
+  flex-direction: column;
+  height: 65px;
+}
+
+.edit-bannerpic .update-banner form .label span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.edit-bannerpic .update-banner form .label input {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.edit-bannerpic .update-banner form button {
+  margin-top: 30px;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+}
+
+/* UPDATE PROFIL PIC */
+.edit-prodilpic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(209, 209, 209);
+  background: rgba(0, 0, 0, 0.13);
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  z-index: 26;
+}
+
+.edit-prodilpic .update-banner {
+  background: white;
+  width: 600px;
+  height: 230px;
+  border-radius: 13px;
+}
+
+.edit-prodilpic .update-banner .header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.edit-prodilpic .update-banner .header button {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #42ACF2;
+  outline: none;
+  border: none;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edit-prodilpic .update-banner .header button img {
+  width: 35px;
+}
+
+.edit-prodilpic .update-banner form {
+  width: 75%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-prodilpic .update-banner form .label {
+  display: flex;
+  flex-direction: column;
+  height: 65px;
+}
+
+.edit-prodilpic .update-banner form .label span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.edit-prodilpic .update-banner form .label input {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.edit-prodilpic .update-banner form button {
+  margin-top: 30px;
+  font-size: 16px;
+  height: 40px;
+  border-radius: 30px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 13px 30px -15px rgba(0, 0, 0, 0.466);
 }
 
 /* CONTENU PRINCIPAL */

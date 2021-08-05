@@ -17,7 +17,7 @@
           </nuxt-link>
         </div>
         <div class="sidelist disp-flex">
-          <nuxt-link to="/user">
+          <nuxt-link to="/profil">
             <img src="~/assets/svg/user.svg" alt="icon" class="icon">
             <button class="btn-none">Profil</button>
           </nuxt-link>
@@ -47,12 +47,12 @@
         <!-- ALL POST -->
         <div class="story" v-for="(post, index) in allPost" :key="index">
           <div class="disp-flex usernav">
-            <div class="circle mini-circle">
+            <div  @click="saveId(post.userId._id)" class="circle mini-circle">
               <img :src="`http://localhost:5001/uploads/images/${post.userId.profilpic}`" alt="lambo">
             </div>
             <div class="identity">
-              <p class="post-username">{{ post.userId.profilname }}</p>
-              <p class="post-pseudo">@{{ post.userId.pseudo }}</p>
+              <p @click="saveId(post.userId._id)" class="post-username">{{ post.userId.profilname }}</p>
+              <p @click="saveId(post.userId._id)" class="post-pseudo">@{{ post.userId.pseudo }}</p>
             </div>
           </div>
           <div class="post-comment">
@@ -130,6 +130,15 @@ export default {
         .catch(function (err) {
           return err
         })
+    },
+    saveId (id) {
+      localStorage.setItem('visitUserId', id)
+      const visitUserId = localStorage.getItem('visitUserId')
+      if (visitUserId) {
+        this.$router.push('/user')
+      } else {
+        return ''
+      }
     },
     // test to log index
     hover (index) {
@@ -350,8 +359,8 @@ a{
 .circle img {
   width: 60px;
   height: 60px;
-  border: 2px solid white;
-  box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
+  border: 2px solid #dddddd;
+  box-shadow: 1px 1px 15px -10px rgba(194, 194, 194, 0.685);
   -webkit-box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
   -moz-box-shadow: 1px 1px 15px -15px rgba(194,194,194,0.6);
   border-radius: 50%;
@@ -359,6 +368,7 @@ a{
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+  cursor: pointer;
 }
 
 .usernav {
@@ -370,10 +380,12 @@ a{
   font-size: 22px;
   font-weight: 500;
   margin-top: -5px;
+  cursor: pointer;
 }
 
 .post-pseudo {
   margin-top: 6px;
+  cursor: pointer;
 }
 
 .post-comment{
