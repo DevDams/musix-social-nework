@@ -51,7 +51,14 @@
                 </div>
                 <span class="choose-file-name">Aucun fichier choisi...</span>
                 <button @click="chooseAudio" class="choose-btn">Choisir un fichier</button>
-                <input @change="processFile($event)" type="file" name="audio" id="audio" hidden>
+                <input
+                @change="processFile($event)"
+                type="file"
+                name="audio"
+                id="audio"
+                accept="audio/*"
+                hidden
+                >
               </div>
               <span class="alert" v-show="alert">*Veillez choisir un fichier audio...</span>
               <button class="submit" type="submit" @click="postAudio">
@@ -114,18 +121,23 @@ export default {
     },
     processFile (event) {
       const file = document.querySelector('.choose-file-name')
+      const invalidFileType = 'video/mp4'
       this.audio = event.target.files[0]
-      console.log('bonjour', this.audio)
-      if (this.audio === '') {
-        file.innerHTML = 'Aucun fichier choisi...'
-      } else if (this.audio === undefined) {
-        file.innerHTML = 'Aucun fichier choisi...'
-      } else if (this.audio !== '') {
-        this.alert = false
-        file.innerHTML = this.audio.name
-      } else if (this.audio !== undefined) {
-        this.alert = false
-        file.innerHTML = this.audio.name
+      if (this.audio.type !== invalidFileType) {
+        if (this.audio === '') {
+          file.innerHTML = 'Aucun fichier choisi...'
+        } else if (this.audio === undefined) {
+          file.innerHTML = 'Aucun fichier choisi...'
+        } else if (this.audio !== '') {
+          this.alert = false
+          file.innerHTML = this.audio.name
+        } else if (this.audio !== undefined) {
+          this.alert = false
+          file.innerHTML = this.audio.name
+        }
+      } else {
+        file.innerHTML = 'Impossible d\'ajouter ce type de fichier...'
+        this.audio = ''
       }
     },
     chooseAudio (e) {

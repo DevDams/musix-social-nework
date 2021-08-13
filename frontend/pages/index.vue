@@ -30,7 +30,7 @@ export default {
   mounted () {
     const userId = localStorage.getItem('userId')
     if (userId) {
-      this.$router.push('/user')
+      this.$router.push('/profil')
     } else {
       return ''
     }

@@ -118,18 +118,23 @@ export default {
     },
     // Like post
     async likePost (id) {
-      const data = {
-        userId: localStorage.getItem('userId')
+      const userId = localStorage.getItem('userId')
+      if (userId) {
+        const data = {
+          userId: localStorage.getItem('userId')
+        }
+        await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+        // Fetch user post
+        this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+          .then((res) => {
+            return res.data
+          })
+          .catch(function (err) {
+            return err
+          })
+      } else {
+        return ''
       }
-      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
-      // Fetch all post
-      this.allPost = await axios.get('http://localhost:5001/api/timeline/post')
-        .then((res) => {
-          return res.data
-        })
-        .catch(function (err) {
-          return err
-        })
     },
     saveId (id) {
       localStorage.setItem('visitUserId', id)

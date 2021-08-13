@@ -192,7 +192,7 @@ export default {
       this.loading = false
     }, 2000)
     const userId = localStorage.getItem('userId')
-    if (userId !== undefined) {
+    if (userId) {
       // Fetch user info
       this.userData = await axios.get(`http://localhost:5001/api/user/${userId}`)
         .then((res) => {
@@ -362,18 +362,23 @@ export default {
     },
     // Like post
     async likePost (id) {
-      const data = {
-        userId: localStorage.getItem('userId')
+      const userId = localStorage.getItem('userId')
+      if (userId) {
+        const data = {
+          userId: localStorage.getItem('userId')
+        }
+        await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
+        // Fetch user post
+        this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
+          .then((res) => {
+            return res.data
+          })
+          .catch(function (err) {
+            return err
+          })
+      } else {
+        return ''
       }
-      await axios({ method: 'put', url: `http://localhost:5001/api/post/${id}/like`, data })
-      // Fetch user post
-      this.userPost = await axios.get(`http://localhost:5001/api/user/post/${data.userId}`)
-        .then((res) => {
-          return res.data
-        })
-        .catch(function (err) {
-          return err
-        })
     }
   }
 }
