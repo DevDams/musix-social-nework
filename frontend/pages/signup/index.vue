@@ -28,56 +28,34 @@
         <h1>S'inscrire</h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
+              <input v-model="name" type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
+          </div>
+          <div class="case-box">
+              <input v-model="telephone" type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
+          </div>
+          <div class="case-box">
               <input
-              v-model="name"
-              type="text"
-              name="name"
-              placeholder="Nom et Prénom"
+              v-model="email"
+              type="email"
+              name="email"
+              placeholder="Email"
               autocomplete="off"
               required>
           </div>
           <div class="case-box">
-            <input
-            v-model="email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            autocomplete="off"
-            required>
+              <input v-model="birth" type="date" name="birth">
           </div>
           <div class="case-box">
-              <input
-              v-model="username"
-              type="text"
-              name="username"
-              placeholder="Nom d'utilisateur"
-              autocomplete="off"
-              required>
+              <input v-model="username" type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
           </div>
           <div class="case-box">
-              <input
-              v-model="pseudo"
-              type="text"
-              name="pseudo"
-              placeholder="Pseudo"
-              autocomplete="off"
-              required>
+              <input v-model="pseudo" type="text" name="pseudo" placeholder="Pseudo" autocomplete="off">
           </div>
           <div class="case-box">
-              <input
-              v-model="password"
-              type="password"
-              name="password"
-              placeholder="Mot de passe"
-              required>
+              <input v-model="password" type="password" name="password" placeholder="Mot de passe">
           </div>
           <div class="case-box">
-              <input
-              v-model="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirmer mot de passe"
-              required>
+              <input v-model="confirmPassword" type="password" name="confirmPassword" placeholder="Confirmer mot de passe">
           </div>
           <button @click="signUp" type="submit" class="btn btn-blue">S'inscrire</button>
         </form>
