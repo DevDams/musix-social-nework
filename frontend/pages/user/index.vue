@@ -6,7 +6,7 @@
       <div class="sidebar-left">
         <div class="sidelist disp-flex">
           <nuxt-link to="/timeline">
-            <img src="~/assets/svg/home.svg" alt="icon" class="icon">
+            <img src="~/assets/images/ficher.png" alt="icon" class="icon">
             <button class="btn-none">Accueil</button>
           </nuxt-link>
         </div>

@@ -2,22 +2,34 @@
   <div>
   <!-- commencer à coder ici -->
     <!-- PAGE D'ACCUEIL -->
+    <Navbar/>
     <div class="home-content">
       <div class="home-left">
-        <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
+        <img src="~/assets/svg/task.svg" alt="cover">
+        <div class="reseau-items">
+          <div class="item">
+            <nuxt-link to="">
+                <img src="#" alt="">
+              </nuxt-link>
+          </div>
+          <div class="item">
+            <nuxt-link to="">
+                <img src="#" alt="" >
+              </nuxt-link>
+          </div>
+          <div class="item">
+            <nuxt-link to="">
+                <img src="#" alt="">
+              </nuxt-link>
+          </div>
+        </div>
       </div>
       <div class="home-right">
-          <div class="logo">
-            <img src="~/assets/images/logo.png">
-          </div>
-          <h1>Enregistrez et partagez vos musique maintenant</h1>
-          <h2>Rejoignez-nous dès aujourd'hui.</h2>
+          <h1>Lorem ipsum, dolor sit amet consectetur adipi</h1>
+          <h2>Lorem ipsum, dolor sit amet consectetur adipi</h2>
           <div class="box-button">
-            <nuxt-link to="/signup">
-              <button class="btn btn-blue">S'inscrire</button>
-            </nuxt-link>
-            <nuxt-link to="/login">
-              <button class="btn btn-light">Se connecter</button>
+            <nuxt-link to="/bienvenue">
+              <button class="btn btn-blue">Bienvenue</button>
             </nuxt-link>
           </div>
       </div>
@@ -67,15 +79,16 @@ a {
 }
 
 .home-left {
-  background: linear-gradient(#42ACF2,#B042F2);
+  background: linear-gradient( rgb(116, 195, 248),rgb(249, 247, 250));
   width: 50%;
-  height: 100vh;
+  height: 90vh;
 }
 
 .home-left img {
-  width: 100%;
+  width: 80%;
   height: 100%;
   object-fit: cover;
+  border-radius:50%
 }
 
 .home-right {
@@ -84,8 +97,8 @@ a {
 }
 
 .home-right h1 {
-  font-weight: 800;
-  font-size: 70px;
+  font-weight: 700;
+  font-size: 35px;
   padding: 37px 0px 30px 0px;
 }
 
@@ -101,7 +114,7 @@ a {
 
 .btn {
   width: 100%;
-  border-radius: 25px;
+  border-radius: 20px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   -ms-border-radius: 25px;
@@ -116,11 +129,12 @@ a {
 .btn-blue {
   border: none;
   color: white;
-  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  background: linear-gradient(to left, #42ACF2,rgb(166, 164, 167));
+  position: relative;
 }
 
 .btn-blue:hover{
-  background: linear-gradient(-90deg, #42ACF2,#B042F2);
+  background: linear-gradient(to right, #42ACF2,rgb(166, 164, 167));
   transition: .2s all ease-in-out;
 }
 
@@ -133,6 +147,6 @@ a {
 }
 
 .btn-light:hover{
-  background-color: #3bb4ff54;
+  background: linear-gradient(to right, #42ACF2,rgb(166, 164, 167));
 }
 </style>

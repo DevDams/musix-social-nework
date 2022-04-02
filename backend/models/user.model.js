@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    birth: {
+    prenom:{
         type: String,
         required: true
     },
@@ -19,30 +19,9 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    pseudo: {
-        type: String,
-        required: true,
-        unique: true
-    },
     password: {
         type: String,
         required: true
-    },
-    banner: {
-        type: String,
-        default: "background.png"
-    },
-    profilname: {
-        type: String,
-        default: "",
-    },
-    profilpic: {
-        type: String,
-        default: "background.png"
-    },
-    bio: {
-        type: String,
-        default: ""
     }
 }, { timestamps: true })
 

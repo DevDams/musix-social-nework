@@ -13,7 +13,7 @@ module.exports = class UserController {
     }
 
     // UPDATE USER
-    static async updateUser(data) {
+    /* static async updateUser(data) {
         const userId = data.id
         const findUser = User.findById(userId)
         if (findUser) {
@@ -60,22 +60,8 @@ module.exports = class UserController {
         } else {
             return { message: "Désolé, vous ne pouvez pas modifier ce profil" }
         }
-    }
+    } */
 
-    // UPDATE USER BANNER
-    static async updateBanner(data, id) {
-        const findUser = User.findById(id)
-        if (findUser) {
-            if (data !== undefined ) {
-                const user = User.updateOne({ _id: id }, { $set: { banner: data.filename } })
-                return user
-            } else {
-                return { message: "Veillez choisir une image s'il vous plait"}
-            }
-        } else {
-            return { message: "Désolé, vous ne pouvez pas modifier ce profil" }
-        }
-    }
 
     // UPDATE USER PROFIL PIC
     static async updateProfilPic(data, id) {

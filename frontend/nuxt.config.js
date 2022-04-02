@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'musix-app',
+    title: 'Sign-app',
     htmlAttrs: {
       lang: 'en'
     },
@@ -19,10 +19,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {src: '/js/audio.js', defer: true},{src: 'https://cdn.jsdelivr.net/npm/apexcharts'}
     ]
-    // script: [
-    //   {src: '/js/audio.js', defer: true}
-    // ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

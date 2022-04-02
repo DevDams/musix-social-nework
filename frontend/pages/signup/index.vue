@@ -1,23 +1,18 @@
 <template>
   <div>
+    <Navbar/>
     <!-- commencer à coder ici -->
     <!-- PAGE D'ACCUEIL -->
     <div class="home-content">
       <div class="home-left">
-          <img src="~/assets/images/intro-cover-1.jpeg" alt="cover">
+          <img src="~/assets/svg/task.svg" alt="cover">
       </div>
       <div class="home-right">
-        <div class="logo">
-          <img src="~/assets/images/logo.png">
-        </div>
-        <h1>Enregistrez et partagez vos musique maintenant</h1>
-        <h2>Rejoignez-nous dès aujourd'hui.</h2>
+        <h1>lorem ipsum dolor</h1>
+        <h2>Lorem ipsum dolor sit amet consectetur </h2>
         <div class="box-button">
-          <nuxt-link to="/signup">
-            <button class="btn btn-blue">S'inscrire</button>
-          </nuxt-link>
-          <nuxt-link to="/login">
-            <button class="btn btn-light">Se connecter</button>
+          <nuxt-link to="/">
+            <button class="btn btn-blue">Bienvenue</button>
           </nuxt-link>
         </div>
       </div>
@@ -25,10 +20,13 @@
     <!-- FORMULAIRE D'INSCRIPTION -->
     <div class="form-overlay">
       <div class="form-content" v-if="signup_form">
-        <h1>S'inscrire</h1>
+        <h1>S'inscrire </h1>
         <form action="/login" method="POST" class="form">
           <div class="case-box">
-              <input v-model="name" type="text" name="name" placeholder="Nom et Prénom" autocomplete="off">
+              <input v-model="name" type="text" name="name" placeholder="Nom" autocomplete="off">
+          </div>
+          <div class="case-box">
+              <input v-model="prenom" type="text" name="name" placeholder="Prénom" autocomplete="off">
           </div>
           <div class="case-box">
               <input v-model="telephone" type="number" name="telephone" placeholder="Téléphone" autocomplete="off">
@@ -41,15 +39,6 @@
               placeholder="Email"
               autocomplete="off"
               required>
-          </div>
-          <div class="case-box">
-              <input v-model="birth" type="date" name="birth">
-          </div>
-          <div class="case-box">
-              <input v-model="username" type="text" name="username" placeholder="Nom d'utilisateur" autocomplete="off">
-          </div>
-          <div class="case-box">
-              <input v-model="pseudo" type="text" name="pseudo" placeholder="Pseudo" autocomplete="off">
           </div>
           <div class="case-box">
               <input v-model="password" type="password" name="password" placeholder="Mot de passe">
@@ -106,12 +95,10 @@ export default {
   data () {
     return {
       name: '',
+      prenom: '',
       telephone: '',
       email: '',
-      birth: '',
       password: '',
-      username: '',
-      pseudo: '',
       confirmPassword: '',
       signup_form: true,
       signup_password: false,
@@ -132,11 +119,9 @@ export default {
       e.preventDefault()
       const data = {
         name: this.name,
+        prenom: this.prenom,
         telephone: this.telephone,
         email: this.email,
-        birth: this.birth,
-        username: this.username,
-        pseudo: this.pseudo,
         password: this.password
       }
       if (this.handleMatchPassword({ password: this.password, confirmPassword: this.confirmPassword }).success) {
@@ -149,10 +134,9 @@ export default {
           this.signup_form = false
         }
         this.name = ''
+        this.prenom = ''
         this.telephone = ''
         this.email = ''
-        this.birth = ''
-        this.pseudo = ''
         this.password = ''
         this.confirmPassword = ''
       } else {
@@ -204,7 +188,7 @@ a {
 }
 
 .home-left {
-  background: linear-gradient( #42ACF2,#B042F2);
+  background: linear-gradient( #42ACF2,rgb(249, 247, 250));
   width: 50%;
   height: 100vh;
 }
@@ -227,13 +211,13 @@ a {
 }
 
 .home-right h1 {
-  font-weight: 800;
-  font-size: 70px;
+  font-weight: 600;
+  font-size: 10px;
   padding: 30px 0;
 }
 
 .home-right h2 {
-  font-size: 34px;
+  font-size: 20px;
   padding-bottom: 40px;
   font-weight: 400;
 }
@@ -259,11 +243,11 @@ a {
 .btn-blue {
   border: none;
   color: white;
-  background: linear-gradient(90deg, #42ACF2,#B042F2);
+  background: linear-gradient(to right, #42ACF2,rgb(166, 164, 167));
 }
 
 .btn-blue:hover{
-  background: linear-gradient(to left, #42ACF2,#B042F2);
+  background: linear-gradient(to left, #42ACF2,rgb(25, 41, 70));
   transition: .2s all ease-in-out;
 }
 .btn-light{
@@ -283,7 +267,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #00000065;
+  background: #00000080;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -292,7 +276,7 @@ a {
 
 .form-content{
   max-width: 500px;
-  padding: 10px 50px;
+  padding: 20px 50px;
   background-color: #fff;
   z-index: 12;
   text-align: center;

@@ -2,30 +2,37 @@
   <div>
   <!-- commencer à coder ici -->
     <!-- PAGE DE CONNECTION -->
-    <div class="login-contain">
-      <div class="logo">
-          <img src="~/assets/images/logo.png">
-      </div>
-      <div class="log-content">
-        <h1>Se connecter</h1>
-        <form action="/user" method="POST" class="form">
-          <div class="formcase">
-              <input @focus="clear" v-model="pseudo" type="text" name="pseudo" placeholder="Téléphone, email ou non d'utilisateur">
+    <div class="content-global">
+      <div class="login-contain">
+        <div class="log-content">
+          <div class="logo">
+            <h1>
+              <nuxt-link to="/">Sign</nuxt-link>
+            </h1>
           </div>
-          <div class="formcase">
-              <input @focus="clear" v-model="password" type="password" name="password" placeholder="Mot de passe">
+          <h1> Connexion </h1>
+          <form action="/user" method="POST" class="form">
+            <div class="formcase">
+                <input @focus="clear" v-model="email" type="text" name="email" placeholder="email">
+            </div>
+            <div class="formcase">
+                <input @focus="clear" v-model="password" type="password" name="password" placeholder="Mot de passe">
+            </div>
+            <div class="error" v-show="error">
+              <span>*email ou mot de passe incorrecte !</span>
+            </div>
+            <button @click="logIn" type="submit" class="btn btn-blue">Se connecter</button>
+          </form>
+          <div class="box-button">
+            <p>Pas encore inscris ?</p>
+            <span>-</span>
+            <nuxt-link to="/signup">
+              S'inscrire
+            </nuxt-link>
           </div>
-          <div class="error" v-show="error">
-            <span>*Pseudo ou mot de passe incorrecte !</span>
-          </div>
-          <button @click="logIn" type="submit" class="btn btn-blue">Se connecter</button>
-        </form>
-        <div class="box-button">
-          <p>Pas encore inscris ?</p>
-          <span>-</span>
-          <nuxt-link to="/signup">
-            S'inscrire
-          </nuxt-link>
+        </div>
+        <div class="logo1">
+          <img src="~/assets/images/people-working.png" alt="cover">
         </div>
       </div>
     </div>
@@ -37,7 +44,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      pseudo: '',
+      email: '',
       password: '',
       error: false
     }
@@ -56,7 +63,7 @@ export default {
     },
     async logIn (e) {
       const data = {
-        pseudo: this.pseudo,
+        email: this.email,
         password: this.password
       }
       e.preventDefault()
@@ -79,16 +86,15 @@ export default {
   box-sizing: border-box;
 }
 .logo{
-  width: 40px;
-  height: 40px;
+  font-size: 15px;
   position: absolute;
-  top: 0px;
-  right: 50%;
-  margin: 20px 0px;
-  margin-right: 140px;
+  top: 40px;
 }
-
-.logo img {
+.logo1{
+  width: 50%;
+  height: 50%;
+}
+.logo img,.logo1 img {
   width: 100%;
   height: 100%;
 }
@@ -98,8 +104,19 @@ a {
 }
 
 .login-contain{
-  max-width: 350px;
-  margin: 100px auto;
+  position: relative;
+  width: 50vw;
+  height: 80vh;
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border:solid 1px black;
+}
+.log-content>h1{
+  font-size:18px;
+  line-height: 2;
 }
 
 .formcase {
@@ -117,7 +134,7 @@ a {
   border: none;
   font-size: 18px;
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   outline-color: #1A91DA;
   background: none;
 }
@@ -136,15 +153,15 @@ a {
 }
 
 .btn{
-  width: 100%;
+  width: 10vw;
   border-radius: 25px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   -ms-border-radius: 25px;
   -o-border-radius: 25px;
-  padding: 13px;
+  padding: 10px;
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -152,12 +169,12 @@ a {
 .btn-blue{
   border: none;
   color: white;
-  background: linear-gradient(to right, #42ACF2,#B042F2);
+  background: linear-gradient(to right, #42ACF2,rgb(166, 164, 167));
   transition: .2s all ease-in-out;
 }
 
 .btn-blue:hover{
-  background: linear-gradient(to left, #42ACF2,#B042F2);
+  background: linear-gradient(to left, #42ACF2,rgb(166, 164, 167));
   transition: .2s all ease-in-out;
 }
 

@@ -9,12 +9,10 @@ module.exports = class UserController {
         const hashedPassword = await bcrypt.hash(data.password, salt)
         const userData = {
             name: data.name,
-            birth: data.birth,
+            prenom: data.prenom,
             telephone: data.telephone,
             email: data.email,
             password: hashedPassword,
-            pseudo: data.pseudo,
-            profilname: data.username
         }
         const user = new User({...userData})
         const output = await user.save()
@@ -27,9 +25,9 @@ module.exports = class UserController {
 
     // LOGIN USER
     static async getUser(data) {
-        const user = await User.findOne({pseudo: data.pseudo})
+        const user = await User.findOne({email: data.email})
         if (!user) {
-            return { message: 'Nom d\'utilisateur ou mot de passe incorrect' }
+            return { message: 'Email d\'utilisateur ou mot de passe incorrect' }
         }
         const validate = await bcrypt.compare(data.password, user.password)
         if (!validate) {

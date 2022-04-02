@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- Commencez à coder ici -->
+    <MenuProfil />
     <div class="container disp-flex">
       <!-- SIDEBAR LEFT -->
       <div class="sidebar-left">
@@ -225,12 +226,14 @@ a{
 .container{
   max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px;
+  grid-template-rows: auto;
+  grid-template-areas: "header header header header" "main main . sidebar" "footer footer footer footer"
 }
-
-.disp-flex{
-  display: flex;
-}
-
+/* .disp-flex{
+  display: grid;
+} */
 /* SIDEBAR LEFT */
 
 .sidebar-left{
@@ -239,6 +242,7 @@ a{
   padding: 50px;
   z-index: 26;
   border-right: 1px solid #ddd;
+  background: red;
 }
 
 .sidelist {
